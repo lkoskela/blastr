@@ -1,0 +1,138 @@
+#!/usr/bin/env ruby
+
+PEOPLE = {
+  "vpeurala" => "Vill-eh Peurawla", 
+  "mali" => "Timo Mali",
+  "jantti" => "Krista Jantti",
+  "mluo" => "Markku Luotamo",
+  "lkoskela" => "Lasse Koskela",
+  "apo" => "Mikko Apo",
+  "tpuronen" => "Timo Puronen",
+  "jari" => "Jari Makela",
+  "pvalkone" => "Petteri Valkonen",
+  "mhjort" => "Markus Hjort",
+  "jslindst" => "Jukka Lindstrom",
+  "smensola" => "Sami Mensola",
+  "tkarkk" => "Tuomas Kärkkäinen",
+  "phmietti" => "Petri Miettinen",
+  "ana" => "Antti Viljakainen",
+  "jalap" => "Janne Lappalainen",
+  "singen" => "Tuomas Hakkarainen",
+  "jaarnial" => "Jari Aarniala",
+  "minttu" => "Minttu Paukkunen",
+  "kkainu" => "Kalle Kainu",
+  "artsu" => "Ari Paartola",
+  "skarjula" => "Samuli Karjula",
+  "tjk" => "Teppo Kurki",
+  "jpaanane" => "Juha Paananen",
+  "harri.virtala@fi.ibm.com" => "Harri Virtala"
+}
+
+class TTSImplementation
+  attr_accessor :name
+  def initialize(name)
+    @name = name
+  end
+  def binary
+    %x[which #{@name}].strip
+  end
+  def available?
+    binary.empty? == false
+  end
+  def speak(msg)
+    %x[#{binary} "#{msg}"]
+  end
+end
+
+class Say < TTSImplementation
+  def initialize; super("say"); end
+end
+
+class Espeak < TTSImplementation
+  def initialize; super("espeak"); end
+end
+
+class Festival < TTSImplementation
+  def initialize; super("festival"); end
+  def speak(msg)
+    %x[echo "#{msg}" | #{binary} --tts]
+  end
+end
+
+def resolve_tts_system
+  return $tts unless $tts.nil?
+  [ Say.new, Espeak.new, Festival.new ].each do |impl|
+    return impl if impl.available?
+  end
+  raise "No TTS implementation found."
+end
+
+def speak(msg)
+  resolve_tts_system.speak(msg)
+end
+
+def full_name_of(username)
+  PEOPLE[username] ||= username
+end
+
+class LogEntry
+  attr_accessor :revision, :author, :comment
+  def initialize(revision, author, comment)
+    @revision = revision.to_i
+    @author = author
+    @comment = comment
+  end
+  def to_s
+    "revision #{@revision} by #{@author}: #{@comment}"
+  end
+end
+
+def content_of(file)
+  file = open(file)
+  content = file.read
+  file.close
+  content
+end
+
+def svn_log(working_copy_path, since_revision = 1)
+  revision = "#{since_revision}:HEAD"
+  revision = "HEAD" if since_revision == "HEAD"
+  cmd = "svn log #{working_copy_path} -r #{revision} > /tmp/svn.log"
+  system(cmd)
+  content_of("/tmp/svn.log")
+end
+
+def svn_log_entries(working_copy_path, since_revision = 1)
+  entries = []
+  svn_log(working_copy_path, since_revision).scan(/r(\d+)\s\|\s(.*?)\s\|.*?\n\n(.*)\n-+/).each do |entry|
+    entries << LogEntry.new(*entry)
+  end
+  entries
+end
+
+def latest_revision(working_copy_path)
+  entries = svn_log_entries(working_copy_path, "HEAD")
+  return entries.first.revision unless entries.empty?
+  1
+end
+
+wc_path = "."
+wc_path = ARGV[0] if ARGV.size > 0
+revision = latest_revision(wc_path)
+revision = ARGV[1].to_i if ARGV.size > 1
+
+puts "svn path:  #{wc_path}\nrevision: #{revision}\n"
+speak("Observing Subversion for commits...")
+
+while true do
+  svn_log_entries(wc_path, revision).each do |entry|
+    if entry.revision.to_i > revision
+      msg = "revision #{entry.revision} by #{full_name_of(entry.author)}: #{entry.comment}"
+      puts msg
+      speak(msg)
+      revision = entry.revision
+    end
+  end
+  sleep 15
+end
+
