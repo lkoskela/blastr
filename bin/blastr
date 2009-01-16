@@ -71,6 +71,9 @@ def content_of(file)
 end
 
 def svn_log(working_copy_path, since_revision = 1)
+  # for git, we could do this:
+  # output = %x[git-log --pretty=format:"Change %h at %ct by %an: %s%n" --since=1232124400]
+  # output.scan(/^Change .*? at (\d+) by (.+?): (.*?)$/)
   revision = "#{since_revision}:HEAD"
   revision = "HEAD" if since_revision == "HEAD"
   cmd = "svn log #{working_copy_path} -r #{revision} > /tmp/svn.log"
