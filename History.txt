@@ -1,3 +1,7 @@
+== 0.0.2 2009-01-16
+
+* Cleaned up stuff that was specific to the original proof-of-concept.
+
 == 0.0.1 2009-01-16
 
 * Initial release containing a proof-of-concept quality implementation hacked
