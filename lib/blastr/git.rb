@@ -41,6 +41,7 @@ module Blastr
       @last_revision = since_revision
       puts "Cloning #{git_url} ..."
       @clone = ::Git.clone(git_url, temp_dir)
+      @clone.checkout
     end
     def commits_since(revision)
       @clone.pull
