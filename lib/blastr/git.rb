@@ -33,25 +33,25 @@ end
 
 module Blastr
   class Git
-    def self.init(git_url, clone_dir, since_revision)
-      Blastr::Git.new(git_url, clone_dir, since_revision)
+    def self.init(git_url, since_revision)
+      Blastr::Git.new(git_url, since_revision)
     end
-    def initialize(git_url, clone_dir, since_revision)
+    def initialize(git_url, since_revision)
       @git_url = git_url
       @last_revision = since_revision
-      puts "Cloning #{git_url} ..."
-      @clone = ::Git.clone(git_url, temp_dir)
-      @clone.checkout
     end
     def commits_since(revision)
-      @clone.pull
-      @clone.chdir do
-        puts "scanning log for commits since #{revision}..."
-        commits = []
-        @clone.log.since(revision).each do |commit|
-          commits << commit
+      @clone = ::Git.clone(@git_url, temp_dir)
+      begin
+        @clone.chdir do
+          commits = []
+          @clone.log.since(revision).each do |commit|
+            commits << commit
+          end
+          commits
         end
-        commits
+      ensure
+        FileUtils.remove_dir(@clone.dir, :force => true)
       end
     end
   end
@@ -60,19 +60,15 @@ end
 git_url = ARGV[0]
 since_revision = ARGV[1] ||= "1000000000"
 
-begin
-  scm = Blastr::Git.init(git_url, temp_dir, since_revision)
-  last_revision = since_revision.to_i
-  while true
-    scm.commits_since(last_revision.to_s).reverse.each do |commit|
-      puts "processing commit made on #{commit.date}"
-      candidate_revision = commit.date.to_i
-      puts "skip revision #{candidate_revision}" unless last_revision < candidate_revision
-      puts "[#{commit.date.to_i}] Commit by #{commit.author.name}: #{commit.message}" if last_revision < candidate_revision
-      last_revision = candidate_revision
-    end
-    sleep 30
+scm = Blastr::Git.init(git_url, since_revision)
+last_revision = since_revision.to_i
+while true
+  scm.commits_since(last_revision.to_s).reverse.each do |commit|
+    #puts "processing commit made on #{commit.date}"
+    candidate_revision = commit.date.to_i
+    puts "skip revision #{candidate_revision}" unless last_revision < candidate_revision
+    puts "[#{commit.date.to_i}] Commit by #{commit.author.name}: #{commit.message}" if last_revision < candidate_revision
+    last_revision = candidate_revision
   end
-ensure
-  FileUtils.remove_dir(temp_dir, :force => true)
+  sleep 30
 end
