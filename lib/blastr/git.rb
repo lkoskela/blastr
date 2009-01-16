@@ -64,7 +64,7 @@ begin
   last_revision = since_revision.to_i
   while true
     scm.commits_since(last_revision.to_s).reverse.each do |commit|
-      puts "[#{commit.date.to_i}] Commit by #{commit.author.name}: #{commit.message}" unless last_revision >= commit.date.to_i
+      puts "[#{commit.date.to_i}] Commit by #{commit.author.name}: #{commit.message}" if last_revision < commit.date.to_i
       last_revision = commit.date.to_i
     end
     sleep 30
