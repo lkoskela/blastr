@@ -43,9 +43,9 @@ module Blastr
       @clone = ::Git.clone(git_url, temp_dir)
     end
     def commits_since(revision)
-      puts "pull..."
       @clone.pull
       @clone.chdir do
+        puts "scanning log for commits since #{revision}..."
         commits = []
         @clone.log.since(revision).each do |commit|
           commits << commit
