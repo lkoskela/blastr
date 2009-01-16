@@ -1,31 +1,7 @@
 #!/usr/bin/env ruby
 
 PEOPLE = {
-  "vpeurala" => "Vill-eh Peurawla", 
-  "mali" => "Timo Mali",
-  "jantti" => "Krista Jantti",
-  "mluo" => "Markku Luotamo",
-  "lkoskela" => "Lasse Koskela",
-  "apo" => "Mikko Apo",
-  "tpuronen" => "Timo Puronen",
-  "jari" => "Jari Makela",
-  "pvalkone" => "Petteri Valkonen",
-  "mhjort" => "Markus Hjort",
-  "jslindst" => "Jukka Lindstrom",
-  "smensola" => "Sami Mensola",
-  "tkarkk" => "Tuomas Kärkkäinen",
-  "phmietti" => "Petri Miettinen",
-  "ana" => "Antti Viljakainen",
-  "jalap" => "Janne Lappalainen",
-  "singen" => "Tuomas Hakkarainen",
-  "jaarnial" => "Jari Aarniala",
-  "minttu" => "Minttu Paukkunen",
-  "kkainu" => "Kalle Kainu",
-  "artsu" => "Ari Paartola",
-  "skarjula" => "Samuli Karjula",
-  "tjk" => "Teppo Kurki",
-  "jpaanane" => "Juha Paananen",
-  "harri.virtala@fi.ibm.com" => "Harri Virtala"
+  "jdoe" => "John Doe"
 }
 
 class TTSImplementation
