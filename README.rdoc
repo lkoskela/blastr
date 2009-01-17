@@ -8,7 +8,16 @@ Blastr observes a version control repository for commits and makes audible annou
 
 == FEATURES/PROBLEMS:
 
-* FIX (list of features or problems)
+Blastr watches for incoming commits to a source repository and voices the commit 
+messages out loud.
+
+The supported version control systems include:
+   * Subversion (http://subversion.tigris.org)
+   * Git (http://git-scm.com)
+
+The supported operating systems (for running Blastr) include:
+   * Mac OS X
+   * Linux (requires the 'espeak' or 'festival' text-to-speech utility)
 
 == SYNOPSIS:
 
