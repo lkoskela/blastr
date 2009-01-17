@@ -9,7 +9,7 @@ require 'tts/tts.rb'
 module Blastr
   VERSION = '0.0.6'
   
-  class Author
+  class People
     PEOPLE_FILE = File.expand_path("~/.blastr/people")
     def self.people
       if File.file?(PEOPLE_FILE)
@@ -34,7 +34,7 @@ module Blastr
 
     def announce(commit)
       puts "[#{commit.revision}] Commit by #{commit.author}: #{commit.comment}"
-      Blastr::TTS.speak("Commit by #{Author.full_name_of(commit.author)}: #{commit.comment}")
+      Blastr::TTS.speak("Commit by #{People.full_name_of(commit.author)}: #{commit.comment}")
     end
     
     def run
