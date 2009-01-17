@@ -1,3 +1,7 @@
+== 0.0.4 2009-01-17
+
+* Git fixes.
+
 == 0.0.3 2009-01-17
 
 * Implementation for both Subversion and Git along with a new structure.
