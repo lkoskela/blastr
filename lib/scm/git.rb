@@ -15,7 +15,7 @@ module Blastr::SourceControl
   class GitRevision
     attr_accessor :name, :date
     
-    def initialize(name, date = nil)
+    def initialize(name, date = Time.now)
       @name = name
       @date = date
     end
@@ -45,7 +45,11 @@ module Blastr::SourceControl
 
     def as_revision(arg)
       raise "Invalid revision: #{arg}" unless arg =~ /^(HEAD(~\d+)?)|([\d\w:-]+)$/
-      GitRevision.new(arg.to_s)
+      obj = nil
+      with_clone do |clone|
+        obj = clone.object(arg.to_s)
+      end
+      GitRevision.new(obj.sha, obj.date)
     end
   
     def latest_revision
@@ -55,18 +59,22 @@ module Blastr::SourceControl
     end
 
     def commits_since(revision)
-      @clone = ::Git.clone(@git_url, Blastr::temp_dir)
-      begin
-        @clone.chdir do
-          commits = []
-          @clone.log.between(revision.to_s).each do |commit|
-            commits << GitLogEntry.new(commit)
-          end
-          return commits.reverse
+      with_clone do |clone|
+        commits = []
+        clone.log.between(revision.to_s).each do |commit|
+          commits << GitLogEntry.new(commit)
         end
-      ensure
-        FileUtils.remove_dir(@clone.dir, :force => true)
+        return commits.reverse
       end
+    end
+    
+    private
+    def with_clone
+      clone = ::Git.clone(@git_url, Blastr::temp_dir)
+      clone.chdir do
+        yield clone
+      end
+      FileUtils.remove_dir(clone.dir, :force => true)
     end
   end
 

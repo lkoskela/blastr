@@ -3,6 +3,10 @@ require 'yaml'
 module Blastr
   class People
     PEOPLE_FILE = File.expand_path("~/.blastr/people")
+    CONFIG_HELP_MESSAGE = ""
+    
+    puts CONFIG_HELP_MESSAGE unless File.file?(PEOPLE_FILE)
+    
     def self.people
       if File.file?(PEOPLE_FILE)
         yaml = YAML.load_file(PEOPLE_FILE)

@@ -5,7 +5,7 @@ class TestGitRevision < Test::Unit::TestCase
   SAMPLE_SHA = "db4ace1c9ba6add9a2b08c153367e2b379f8fb4c"
   
   def setup
-    @revision_with_date = Blastr::SourceControl::GitRevision.new(SAMPLE_SHA, Time.now)
+    @revision_with_date = Blastr::SourceControl::GitRevision.new(SAMPLE_SHA, Time.now - 100)
     @revision_without_date = Blastr::SourceControl::GitRevision.new(SAMPLE_SHA)
   end
 
@@ -18,6 +18,11 @@ class TestGitRevision < Test::Unit::TestCase
     later_revision = Blastr::SourceControl::GitRevision.new(SAMPLE_SHA, @revision_with_date.date + 1)
     assert @revision_with_date.before?(later_revision) == true
     assert later_revision.before?(@revision_with_date) == false
+  end
+
+  def test_revision_defaults_its_date_to_now
+    assert @revision_with_date.before?(@revision_without_date) == true
+    assert @revision_without_date.before?(@revision_with_date) == false
   end
 
   def test_before_comparison_with_HEAD
