@@ -1,3 +1,9 @@
+== 0.0.5 2009-01-17
+
+* Improved instructions in README.rdoc
+* Git is now an explicit dependency in the gem, hopefully streamlining the
+  installation process.
+
 == 0.0.4 2009-01-17
 
 * Git fixes.
