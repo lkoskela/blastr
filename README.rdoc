@@ -47,13 +47,19 @@ Mercurial:
 
 Blastr depends on the git[http://git.rubyforge.org/] gem (>= 1.0.5).
 This dependency should be installed automatically when you install
-Blastr with <tt>gem install blastr</tt>.
+Blastr.
 
 Blastr also depends on the standard command line client for the source 
 repository in question being in the user's PATH. For example, in order 
 to observe a Subversion repository the "svn" executable needs to be in 
 PATH. For Git, the "git" executable needs to be in PATH. For Mercurial, 
 "hg" needs to be in PATH.
+
+Furthermore, Blastr needs a text-to-speech utility for making those 
+commit messages audible. On Mac OS X Blastr uses the built-in "say" 
+utility so Mac users don't need to worry about this. On Linux, Blastr
+can utilize Festival[http://www.cstr.ed.ac.uk/projects/festival/] and 
+eSpeak[http://espeak.sourceforge.net/].
 
 == INSTALL:
 
@@ -63,6 +69,9 @@ First, install Blastr and its gem dependencies:
 
 Then, download and install your chosen version control system's toolset
 and make sure it's on your PATH when running Blastr.
+
+Then, if applicable, download and install a text-to-speech utility for
+your platform.
 
 == KNOWN PROBLEMS AND GOTCHAS:
 
