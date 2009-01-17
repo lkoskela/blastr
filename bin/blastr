@@ -2,8 +2,8 @@
 
 require 'rubygems'
 require 'yaml'
-require 'lib/blastr.rb'
-require 'lib/blastr/tts.rb'
+require "#{File.dirname(__FILE__)}/../lib/blastr.rb"
+require "#{File.dirname(__FILE__)}/../lib/blastr/tts.rb"
 
 scm_url = ARGV[0]
 scm = Blastr.scm(scm_url)
