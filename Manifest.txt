@@ -5,12 +5,12 @@ README.rdoc
 Rakefile
 bin/blastr
 lib/blastr.rb
-lib/blastr/git.rb
-lib/blastr/scm.rb
-lib/blastr/svn.rb
-lib/blastr/tts.rb
+lib/scm/git.rb
+lib/scm/scm.rb
+lib/scm/svn.rb
+lib/tts/tts.rb
 script/console
 script/destroy
 script/generate
-test/test_blastr.rb
 test/test_helper.rb
+test/test_tts.rb
