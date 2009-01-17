@@ -1,42 +1,6 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require 'yaml'
 require "#{File.dirname(__FILE__)}/../lib/blastr.rb"
-require "#{File.dirname(__FILE__)}/../lib/blastr/tts.rb"
 
-scm_url = ARGV[0]
-scm = Blastr.scm(scm_url)
-since_revision = scm.as_revision(ARGV[1]) if ARGV.size > 1
-since_revision = scm.latest_revision unless ARGV.size > 1
-
-class Author
-  PEOPLE_FILE = File.expand_path("~/.blastr/people")
-  def self.people
-    if File.file?(PEOPLE_FILE)
-      yaml = YAML.load_file(PEOPLE_FILE)
-      return yaml unless yaml == false
-    end
-    { }
-  end
-
-  def self.full_name_of(username)
-    people[username] ||= username
-  end
-end
-
-def announce(commit)
-  puts "[#{commit.revision}] Commit by #{commit.author}: #{commit.comment}"
-  Blastr::TTS.speak("Commit by #{Author.full_name_of(commit.author)}: #{commit.comment}")
-end
-
-puts "Polling for #{scm.name} commits since revision #{since_revision}..."
-while true
-  scm.commits_since(since_revision.to_s).each do |commit|
-    if since_revision.before?(commit.revision)
-      announce(commit)
-      since_revision = commit.revision
-    end
-  end
-  sleep 30
-end
+Blastr::Process.new(ARGV).run

@@ -45,7 +45,7 @@ module Blastr
     end
 
     def TTS::speak(msg)
-      resolve_tts_system.speak(msg)
+      resolve_tts_system.speak(msg.gsub(/"/u, '\"').gsub(/'/u, '\''))
     end
 
   end

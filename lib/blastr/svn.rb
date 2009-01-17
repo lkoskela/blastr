@@ -25,7 +25,7 @@ module Blastr
     def name; "Subversion"; end
     
     def self.understands_url?(url)
-      not url.match(/(https?|svn):\/\/.+/).nil?
+      not url.match(/(https?|svn):\/\/.+/u).nil?
     end
     
     def initialize(svn_url)
@@ -44,11 +44,12 @@ module Blastr
     end
 
     def commits_since(since_revision = 1)
+      nonascii = /([^a-zA-Z0-9\.,:;\-_\?!"'\s]+?)/u
       entries = []
-      svn_log(since_revision).scan(/r(\d+)\s\|\s(.*?)\s\|.*?\n\n(.*)\n-+/).each do |entry|
+      svn_log(since_revision).scan(/r(\d+)\s\|\s(.*?)\s\|.*?\n\n(.*)\n-+/u).each do |entry|
         revision = as_revision(entry[0])
         author = entry[1]
-        comment = entry[2]
+        comment = entry[2].gsub(nonascii, 'X ')
         entries << LogEntry.new(revision, author, comment)
       end
       entries
