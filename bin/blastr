@@ -3,4 +3,8 @@
 require 'rubygems'
 require "#{File.dirname(__FILE__)}/../lib/blastr.rb"
 
-Blastr::Process.new(ARGV).run
+begin
+  Blastr::Process.new(ARGV).run
+rescue Blastr::UsageError => e
+  puts e
+end
