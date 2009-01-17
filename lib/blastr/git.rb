@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 require 'rubygems'
 require 'git'
 require 'blastr/scm.rb'
