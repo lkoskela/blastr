@@ -1,118 +1,40 @@
 #!/usr/bin/env ruby
 
-PEOPLE = {
-  "jdoe" => "John Doe"
-}
+require 'rubygems'
+require 'yaml'
+require 'lib/blastr.rb'
+require 'lib/blastr/tts.rb'
 
-class TTSImplementation
-  attr_accessor :name
-  def initialize(name)
-    @name = name
-  end
-  def binary
-    %x[which #{@name}].strip
-  end
-  def available?
-    binary.empty? == false
-  end
-  def speak(msg)
-    %x[#{binary} "#{msg}"]
-  end
-end
+scm_url = ARGV[0]
+scm = Blastr.scm(scm_url)
+since_revision = scm.as_revision(ARGV[1]) if ARGV.size > 1
+since_revision = scm.latest_revision unless ARGV.size > 1
 
-class Say < TTSImplementation
-  def initialize; super("say"); end
-end
-
-class Espeak < TTSImplementation
-  def initialize; super("espeak"); end
-end
-
-class Festival < TTSImplementation
-  def initialize; super("festival"); end
-  def speak(msg)
-    %x[echo "#{msg}" | #{binary} --tts]
-  end
-end
-
-def resolve_tts_system
-  return $tts unless $tts.nil?
-  [ Say.new, Espeak.new, Festival.new ].each do |impl|
-    return impl if impl.available?
-  end
-  raise "No TTS implementation found."
-end
-
-def speak(msg)
-  resolve_tts_system.speak(msg)
-end
-
-def full_name_of(username)
-  PEOPLE[username] ||= username
-end
-
-class LogEntry
-  attr_accessor :revision, :author, :comment
-  def initialize(revision, author, comment)
-    @revision = revision.to_i
-    @author = author
-    @comment = comment
-  end
-  def to_s
-    "revision #{@revision} by #{@author}: #{@comment}"
-  end
-end
-
-def content_of(file)
-  file = open(file)
-  content = file.read
-  file.close
-  content
-end
-
-def svn_log(working_copy_path, since_revision = 1)
-  # for git, we could do this:
-  # git clone url
-  # output = %x[git-log --pretty=format:"Change %h at %ct by %an: %s%n" --since=1232124400]
-  # output.scan(/^Change .*? at (\d+) by (.+?): (.*?)$/)
-  revision = "#{since_revision}:HEAD"
-  revision = "HEAD" if since_revision == "HEAD"
-  cmd = "svn log #{working_copy_path} -r #{revision} > /tmp/svn.log"
-  system(cmd)
-  content_of("/tmp/svn.log")
-end
-
-def svn_log_entries(working_copy_path, since_revision = 1)
-  entries = []
-  svn_log(working_copy_path, since_revision).scan(/r(\d+)\s\|\s(.*?)\s\|.*?\n\n(.*)\n-+/).each do |entry|
-    entries << LogEntry.new(*entry)
-  end
-  entries
-end
-
-def latest_revision(working_copy_path)
-  entries = svn_log_entries(working_copy_path, "HEAD")
-  return entries.first.revision unless entries.empty?
-  1
-end
-
-wc_path = "."
-wc_path = ARGV[0] if ARGV.size > 0
-revision = latest_revision(wc_path)
-revision = ARGV[1].to_i if ARGV.size > 1
-
-puts "svn path:  #{wc_path}\nrevision: #{revision}\n"
-speak("Observing Subversion for commits...")
-
-while true do
-  svn_log_entries(wc_path, revision).each do |entry|
-    if entry.revision.to_i > revision
-      msg = "revision #{entry.revision} by #{full_name_of(entry.author)}: #{entry.comment}"
-      puts msg
-      speak(msg)
-      revision = entry.revision
+class Author
+  PEOPLE_FILE = File.expand_path("~/.blastr/people")
+  def self.people
+    if File.file?(PEOPLE_FILE)
+      yaml = YAML.load_file(PEOPLE_FILE)
+      return yaml unless yaml == false
     end
+    { }
   end
-  sleep 15
+
+  def self.full_name_of(username)
+    people[username] ||= username
+  end
 end
 
+def announce(commit)
+  puts "[#{commit.revision}] Commit by #{commit.author}: #{commit.comment}"
+  Blastr::TTS.speak("Commit by #{Author.full_name_of(commit.author)}: #{commit.comment}")
+end
+
+puts "Polling for #{scm.name} commits since revision #{since_revision}..."
+while true
+  scm.commits_since(since_revision.to_s).reverse.each do |commit|
+    announce(commit) if since_revision.before?(commit.revision)
+    since_revision = commit.revision
+  end
+  sleep 30
+end
