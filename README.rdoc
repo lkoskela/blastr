@@ -4,7 +4,7 @@
 
 == DESCRIPTION:
 
-FIX (describe your package)
+Blastr observes a version control repository for commits and makes audible announcements out of the commit messages. It currently supports Subversion and Git on Linux and OS X, possibly on other UNIX-like operating systems as well.
 
 == FEATURES/PROBLEMS:
 
@@ -12,15 +12,19 @@ FIX (describe your package)
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+sudo gem install blastr
+blastr http://svn.acme.com/foo/trunk
+blastr http://svn.acme.com/foo/trunk
+blastr git://github.com/lkoskela/blastr.git
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+Blastr depends on the "git" gem (>= 1.0.5) and the "svn" command line client 
+being in the user's PATH.
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+sudo gem install blastr
 
 == LICENSE:
 
