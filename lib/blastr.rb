@@ -7,7 +7,7 @@ require 'scm/svn.rb'
 require 'tts/tts.rb'
 
 module Blastr
-  VERSION = '0.0.5'
+  VERSION = '0.0.6'
   
   class Author
     PEOPLE_FILE = File.expand_path("~/.blastr/people")
