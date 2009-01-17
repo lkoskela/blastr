@@ -9,13 +9,13 @@ messages out loud.
 
 The supported version control systems include:
 
-   * Subversion (http://subversion.tigris.org/)
-   * Git (http://git-scm.com/)
+* Subversion (http://subversion.tigris.org/)
+* Git (http://git-scm.com/)
 
 The supported operating systems (for running Blastr) include:
 
-   * Mac OS X
-   * Linux (requires the eSpeak[http://espeak.sourceforge.net/] or Festival[http://www.cstr.ed.ac.uk/projects/festival/] text-to-speech utility)
+* Mac OS X
+* Linux (requires the eSpeak[http://espeak.sourceforge.net/] or Festival[http://www.cstr.ed.ac.uk/projects/festival/] text-to-speech utility)
 
 == SYNOPSIS:
 
