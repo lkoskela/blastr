@@ -16,21 +16,25 @@ module Blastr
       @since_revision = @scm.latest_revision unless ARGV.size > 1
     end
 
+    def run
+      puts "Polling #{@scm.name} commits since revision #{@since_revision}..."
+      while true
+        announce_new_commits
+        sleep 30
+      end
+    end
+    
     def announce(commit)
       puts "[#{commit.revision}] Commit by #{commit.author}: #{commit.comment}"
       Blastr::TTS.speak("Commit by #{People.full_name_of(commit.author)}: #{commit.comment}")
     end
     
-    def run
-      puts "Polling #{@scm.name} commits since revision #{@since_revision}..."
-      while true
-        @scm.commits_since(@since_revision.to_s).each do |commit|
-          if @since_revision.before?(commit.revision)
-            announce(commit)
-            @since_revision = commit.revision
-          end
+    def announce_new_commits
+      @scm.commits_since(@since_revision.to_s).each do |commit|
+        if @since_revision.before?(commit.revision)
+          announce(commit)
+          @since_revision = commit.revision
         end
-        sleep 30
       end
     end
   end

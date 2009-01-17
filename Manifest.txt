@@ -5,6 +5,7 @@ README.rdoc
 Rakefile
 bin/blastr
 lib/blastr.rb
+lib/people/people.rb
 lib/scm/git.rb
 lib/scm/scm.rb
 lib/scm/svn.rb
@@ -12,5 +13,8 @@ lib/tts/tts.rb
 script/console
 script/destroy
 script/generate
+test/test_git_log_entry.rb
+test/test_git_revision.rb
 test/test_helper.rb
+test/test_svn_revision.rb
 test/test_tts.rb
