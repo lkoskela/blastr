@@ -4,9 +4,11 @@ PostInstall.txt
 README.rdoc
 Rakefile
 bin/blastr
+config/website.yml
 lib/blastr.rb
 lib/people/people.rb
 lib/scm/git.rb
+lib/scm/hg.rb
 lib/scm/scm.rb
 lib/scm/svn.rb
 lib/tts/tts.rb
@@ -17,5 +19,8 @@ test/test_blastr.rb
 test/test_git_log_entry.rb
 test/test_git_revision.rb
 test/test_helper.rb
+test/test_mercurial_revision.rb
+test/test_scm_url_matching.rb
 test/test_svn_revision.rb
 test/test_tts.rb
+website/index.html

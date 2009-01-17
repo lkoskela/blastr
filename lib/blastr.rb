@@ -6,7 +6,7 @@ module Blastr
   require 'tts/tts.rb'
   require 'people/people.rb'
 
-  VERSION = '0.0.9'
+  VERSION = '0.0.10'
   
   class UsageError < ArgumentError
     

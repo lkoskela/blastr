@@ -1,6 +1,8 @@
 = DESCRIPTION:
 
-Blastr observes a version control repository for commits and makes audible announcements out of the commit messages. It currently supports Subversion and Git on Linux and OS X, possibly on other UNIX-like operating systems as well.
+Blastr observes a version control repository for commits and makes audible 
+announcements out of the commit messages. It currently supports Subversion 
+and Git on Linux and OS X, possibly on other UNIX-like operating systems as well.
 
 == FEATURES:
 
@@ -11,6 +13,7 @@ The supported version control systems include:
 
 * Subversion[http://subversion.tigris.org]
 * Git[http://git-scm.com]
+* Mercurial[http://www.selenic.com/mercurial]
 
 The supported operating systems (for running Blastr) include:
 
@@ -19,15 +22,35 @@ The supported operating systems (for running Blastr) include:
 
 == SYNOPSIS:
 
+Subversion:
+
   blastr http://svn.acme.com/foo/trunk
 
   blastr http://svn.acme.com/foo/trunk 123
 
+Git:
+
   blastr git://github.com/lkoskela/blastr.git
+
+  blastr git://github.com/lkoskela/blastr.git e528509fddd57194f1c497ce6583f6869e8ed62c
+
+Mercurial:
+
+  blastr hg:http://hg.serpentine.com/tutorial/hello
+
+  blastr hg:http://hg.serpentine.com/tutorial/hello 2
 
 == REQUIREMENTS:
 
-Blastr depends on the git[http://git.rubyforge.org/] gem (>= 1.0.5) and the Subversion[http://subversion.tigris.org] command line client being in the user's PATH.
+Blastr depends on the git[http://git.rubyforge.org/] gem (>= 1.0.5).
+This dependency should be installed automatically when you install
+Blastr with <tt>gem install blastr</tt>.
+
+Blastr also depends on the standard command line client for the source 
+repository in question being in the user's PATH. For example, in order 
+to observe a Subversion repository the "svn" executable needs to be in 
+PATH. For Git, the "git" executable needs to be in PATH. For Mercurial, 
+"hg" needs to be in PATH.
 
 == INSTALL:
 
@@ -35,7 +58,9 @@ Blastr depends on the git[http://git.rubyforge.org/] gem (>= 1.0.5) and the Subv
 
 == KNOWN PROBLEMS AND GOTCHAS:
 
-Blastr doesn't treat non-ASCII characters in commit messages too well. In other words, the developers make no promises whatsoever regarding Blastr's behavior when encountering weird Norwegian scribble.
+Blastr doesn't treat non-ASCII characters in commit messages too well. 
+In other words, the developers make no promises whatsoever regarding 
+Blastr's behavior when encountering weird Norwegian scribble.
 
 == LICENSE:
 

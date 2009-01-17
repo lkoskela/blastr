@@ -31,3 +31,4 @@ end
 
 require File.dirname(__FILE__) + '/svn.rb'
 require File.dirname(__FILE__) + '/git.rb'
+require File.dirname(__FILE__) + '/hg.rb'
