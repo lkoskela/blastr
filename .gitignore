@@ -1,2 +1,3 @@
 # ignore generated gem
 pkg/
+doc/
