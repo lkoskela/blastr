@@ -6,17 +6,18 @@ module Blastr
   
   class GitLogEntry < LogEntry
     def initialize(commit)
-      @revision = GitRevision.new(commit.sha)
+      @revision = GitRevision.new(commit.sha, commit.date)
       @author = commit.author.name
       @comment = commit.message
     end
   end
 
   class GitRevision
-    attr_accessor :name
+    attr_accessor :name, :date
     
-    def initialize(name)
+    def initialize(name, date = nil)
       @name = name
+      @date = date
     end
     
     def to_s
@@ -26,6 +27,7 @@ module Blastr
     def before?(revision)
       return false if @name == "HEAD"
       return true if revision.name == "HEAD"
+      return @date < revision.date unless @date.nil?
       @name < revision.name
     end
   end

@@ -51,7 +51,7 @@ module Blastr
         comment = entry[2]
         entries << LogEntry.new(revision, author, comment)
       end
-      entries.reverse
+      entries
     end
 
     private

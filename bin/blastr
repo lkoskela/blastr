@@ -32,9 +32,11 @@ end
 
 puts "Polling for #{scm.name} commits since revision #{since_revision}..."
 while true
-  scm.commits_since(since_revision.to_s).reverse.each do |commit|
-    announce(commit) if since_revision.before?(commit.revision)
-    since_revision = commit.revision
+  scm.commits_since(since_revision.to_s).each do |commit|
+    if since_revision.before?(commit.revision)
+      announce(commit)
+      since_revision = commit.revision
+    end
   end
   sleep 30
 end
