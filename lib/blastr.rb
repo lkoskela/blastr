@@ -6,7 +6,7 @@ module Blastr
   require 'tts/tts.rb'
   require 'people/people.rb'
 
-  VERSION = '0.0.7'
+  VERSION = '0.0.8'
 
   class Process
     def initialize(args=[])
