@@ -3,8 +3,6 @@ $:.unshift(File.dirname(__FILE__)) unless
 
 module Blastr
   require 'scm/scm.rb'
-  require 'scm/git.rb'
-  require 'scm/svn.rb'
   require 'tts/tts.rb'
   require 'people/people.rb'
 
@@ -13,7 +11,7 @@ module Blastr
   class Process
     def initialize(args=[])
       scm_url = ARGV[0]
-      @scm = Blastr.scm(scm_url)
+      @scm = Blastr::SourceControl.implementation_for(scm_url)
       @since_revision = @scm.as_revision(ARGV[1]) if ARGV.size > 1
       @since_revision = @scm.latest_revision unless ARGV.size > 1
     end
@@ -44,16 +42,4 @@ module Blastr
     temp_dir
   end
 
-  def Blastr::scm_implementations
-    [ Blastr::SourceControl::Subversion, Blastr::SourceControl::Git ]
-  end
-
-  def Blastr::scm(url)
-    scm_implementations.each do |impl|
-      if impl.understands_url?(url)
-        return impl.new(url)
-      end
-    end
-    raise "No SCM implementation found that would understand #{url}"
-  end
 end

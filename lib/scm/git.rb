@@ -3,7 +3,7 @@ require 'git'
 require 'blastr/scm.rb'
 
 module Blastr::SourceControl
-  
+    
   class GitLogEntry < LogEntry
     def initialize(commit)
       @revision = GitRevision.new(commit.sha, commit.date)
@@ -79,3 +79,5 @@ module Blastr::SourceControl
   end
 
 end
+
+Blastr::SourceControl.register_implementation(Blastr::SourceControl::Git)

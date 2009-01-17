@@ -80,3 +80,5 @@ module Blastr::SourceControl
   end
 
 end
+
+Blastr::SourceControl.register_implementation(Blastr::SourceControl::Subversion)
