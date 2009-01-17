@@ -48,10 +48,6 @@ module Blastr
       GitRevision.new(arg.to_s)
     end
   
-    def understands_url?(url)
-      url.index("git://") == 0
-    end
-    
     def latest_revision
       commits = commits_since(as_revision("HEAD~5"))
       return as_revision("HEAD") unless commits.size > 0
