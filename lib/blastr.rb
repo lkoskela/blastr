@@ -1,28 +1,13 @@
 $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
-require 'yaml'
 require 'scm/git.rb'
 require 'scm/svn.rb'
 require 'tts/tts.rb'
+require 'people/people.rb'
 
 module Blastr
   VERSION = '0.0.6'
-  
-  class People
-    PEOPLE_FILE = File.expand_path("~/.blastr/people")
-    def self.people
-      if File.file?(PEOPLE_FILE)
-        yaml = YAML.load_file(PEOPLE_FILE)
-        return yaml unless yaml == false
-      end
-      { }
-    end
-
-    def self.full_name_of(username)
-      people[username] ||= username
-    end
-  end
   
   class Process
     def initialize(args=[])
