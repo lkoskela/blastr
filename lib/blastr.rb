@@ -2,7 +2,7 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 module Blastr
-  VERSION = '0.0.2'
+  VERSION = '0.0.3'
 
   require 'blastr/git.rb'
   require 'blastr/svn.rb'
