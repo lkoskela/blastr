@@ -1,3 +1,8 @@
+== 0.0.11 2009-01-19
+
+* Fix for the 0.0.10 release, which is broken thanks to my still being new
+  to Git and accidentally not having committed everything when I thought I had.
+
 == 0.0.10 2009-01-18
 
 * Added support for Mercurial
