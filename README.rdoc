@@ -6,7 +6,7 @@
 
 Blastr observes a version control repository for commits and makes audible announcements out of the commit messages. It currently supports Subversion and Git on Linux and OS X, possibly on other UNIX-like operating systems as well.
 
-== FEATURES/PROBLEMS:
+== FEATURES:
 
 Blastr watches for incoming commits to a source repository and voices the commit 
 messages out loud.
@@ -34,6 +34,10 @@ being in the user's PATH.
 == INSTALL:
 
 sudo gem install blastr
+
+== KNOWN PROBLEMS AND GOTCHAS:
+
+* Blastr doesn't provide any kind of online help, there's no "--help" option, etc.
 
 == LICENSE:
 
