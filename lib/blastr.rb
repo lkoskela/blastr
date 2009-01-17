@@ -2,9 +2,9 @@ $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
 require 'yaml'
-require 'blastr/git.rb'
-require 'blastr/svn.rb'
-require 'blastr/tts.rb'
+require 'scm/git.rb'
+require 'scm/svn.rb'
+require 'tts/tts.rb'
 
 module Blastr
   VERSION = '0.0.5'
