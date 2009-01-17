@@ -1,14 +1,15 @@
 $:.unshift(File.dirname(__FILE__)) unless
   $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
 
-require 'scm/git.rb'
-require 'scm/svn.rb'
-require 'tts/tts.rb'
-require 'people/people.rb'
-
 module Blastr
+  require 'scm/scm.rb'
+  require 'scm/git.rb'
+  require 'scm/svn.rb'
+  require 'tts/tts.rb'
+  require 'people/people.rb'
+
   VERSION = '0.0.6'
-  
+
   class Process
     def initialize(args=[])
       scm_url = ARGV[0]
@@ -44,7 +45,7 @@ module Blastr
   end
 
   def Blastr::scm_implementations
-    [ Blastr::Subversion, Blastr::Git ]
+    [ Blastr::SourceControl::Subversion, Blastr::SourceControl::Git ]
   end
 
   def Blastr::scm(url)

@@ -1,7 +1,7 @@
 require 'fileutils'
 require 'blastr/scm.rb'
 
-module Blastr
+module Blastr::SourceControl
   
   class SubversionRevision
     attr_accessor :name

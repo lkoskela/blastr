@@ -20,8 +20,8 @@ class TestGitLogEntry < Test::Unit::TestCase
   end
   
   def test_initialization
-    entry = Blastr::GitLogEntry.new(FakeCommit.new)
-    assert_equal Blastr::GitRevision, entry.revision.class
+    entry = Blastr::SourceControl::GitLogEntry.new(FakeCommit.new)
+    assert_equal Blastr::SourceControl::GitRevision, entry.revision.class
     assert_equal COMMIT_HASH, entry.revision.to_s
     assert_equal COMMIT_DATE, entry.revision.date
     assert_equal COMMIT_AUTHOR, entry.author

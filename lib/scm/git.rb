@@ -2,7 +2,7 @@ require 'rubygems'
 require 'git'
 require 'blastr/scm.rb'
 
-module Blastr
+module Blastr::SourceControl
   
   class GitLogEntry < LogEntry
     def initialize(commit)
