@@ -1,6 +1,5 @@
-require 'rubygems'
 require 'git'
-require 'blastr/scm.rb'
+require File.dirname(__FILE__) + '/scm.rb'
 
 module Blastr::SourceControl
     

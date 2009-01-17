@@ -12,8 +12,10 @@ module Blastr::SourceControl
     end
   end
   
+  @@implementations = []
+  
   def self.implementation_for(url)
-    IMPLEMENTATIONS.each do |impl|
+    @@implementations.each do |impl|
       if impl.understands_url?(url)
         return impl.new(url)
       end
@@ -21,10 +23,8 @@ module Blastr::SourceControl
     raise "No SCM implementation found that would understand #{url}"
   end
   
-  IMPLEMENTATIONS = []
-  
   def self.register_implementation(implementation)
-    IMPLEMENTATIONS << implementation unless IMPLEMENTATIONS.include?(implementation)
+    @@implementations << implementation unless @@implementations.include?(implementation)
   end
   
 end
