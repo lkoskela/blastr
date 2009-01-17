@@ -1,3 +1,8 @@
+== 0.0.12 ????-??-??
+
+* The software version and a copyright statement is now printed out when
+  starting Blastr.
+
 == 0.0.11 2009-01-19
 
 * Fix for the 0.0.10 release, which is broken thanks to my still being new

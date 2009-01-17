@@ -7,6 +7,8 @@ module Blastr
   require 'people/people.rb'
 
   VERSION = '0.0.11'
+  COPYRIGHT = 'Copyright (c) 2009, Lasse Koskela. All Rights Reserved.'
+  puts "Blastr #{VERSION}\n#{COPYRIGHT}\n"
   
   class UsageError < ArgumentError
     
