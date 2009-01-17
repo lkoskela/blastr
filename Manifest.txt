@@ -13,6 +13,7 @@ lib/tts/tts.rb
 script/console
 script/destroy
 script/generate
+test/test_blastr.rb
 test/test_git_log_entry.rb
 test/test_git_revision.rb
 test/test_helper.rb

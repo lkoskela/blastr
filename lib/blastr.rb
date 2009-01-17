@@ -38,7 +38,7 @@ EOS
   end
 
   class Process
-    def initialize(args=[])
+    def initialize(args)
       validate(args)
       scm_url = args[0]
       @scm = Blastr::SourceControl.implementation_for(scm_url)
@@ -68,7 +68,7 @@ EOS
         end
       end
     end
-    def validate(args)
+    def validate(args=[])
       raise UsageError.new if args.size == 0 or args.size > 2
     end
   end
