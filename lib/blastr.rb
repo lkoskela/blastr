@@ -10,6 +10,20 @@ module Blastr
   COPYRIGHT = 'Copyright (c) 2009, Lasse Koskela. All Rights Reserved.'
   puts "Blastr #{VERSION}\n#{COPYRIGHT}\n"
   
+  def self.trap_and_exit(signal)
+    trap(signal) {
+      puts ""
+      exit 0
+    }
+  end
+  
+  def self.delete_at_exit(file_or_directory)
+    at_exit do
+      puts "Cleaning up leftovers: #{temp_dir}" if File.directory?(temp_dir) if $DEBUG
+      FileUtils.remove_dir(temp_dir, :force => true)
+    end
+  end
+
   class UsageError < ArgumentError
     
     USAGE_TEXT = <<EOS
@@ -41,13 +55,14 @@ EOS
 
   class Process
     def initialize(args)
+      Blastr::trap_and_exit("INT")
       validate(args)
       scm_url = args[0]
       @scm = Blastr::SourceControl.implementation_for(scm_url)
       @since_revision = @scm.as_revision(args[1]) if args.size > 1
       @since_revision = @scm.latest_revision unless args.size > 1
     end
-
+    
     def run
       puts "Polling #{@scm.name} commits since revision #{@since_revision}..."
       while true

@@ -58,11 +58,11 @@ module Blastr::SourceControl
     private
     def svn_log(since_revision = as_revision("1"))
       temp_file = Tempfile.new("svn.log").path
+      Blastr::delete_at_exit(temp_file)
       begin
         revision = "#{since_revision}:#{as_revision('HEAD')}"
         revision = as_revision("HEAD") if since_revision.to_s == as_revision("HEAD").to_s
-        cmd = "svn log #{@svn_url} -r #{revision} > #{temp_file}"
-        system(cmd)
+        %x[svn log #{@svn_url} -r #{revision} > #{temp_file}]
         return content_of(temp_file)
       ensure
         FileUtils.remove_file(temp_file)

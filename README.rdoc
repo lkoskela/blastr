@@ -75,11 +75,13 @@ your platform.
 
 == KNOWN PROBLEMS AND GOTCHAS:
 
-Blastr doesn't treat non-ASCII characters in commit messages too well. 
+* Blastr currently does a full clone operation on every poll for 
+source repositories that don't support a purely remote operation (like
+"svn log [URL]"). This may take a while if your repository is big.
+* Blastr doesn't treat non-ASCII characters in commit messages too well. 
 In other words, the developers make no promises whatsoever regarding 
 Blastr's behavior when encountering weird Norwegian scribble.
-
-Some folks might want to monitor multiple repositories or multiple 
+* Some folks might want to monitor multiple repositories or multiple 
 paths or branches within a repository at the same time. Currently,
 this is technically possible by running to instances of Blastr in
 parallel but every now and then those two instances will speak over
