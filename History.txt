@@ -1,5 +1,7 @@
-== 0.0.12 ????-??-??
+== 0.0.12 2009-01-19
 
+* Removed extra_dev_deps from newgem configuration (should fix the implicit
+  dependencies not being found during "sudo gem install").
 * The software version and a copyright statement is now printed out when
   starting Blastr.
 
