@@ -1,11 +1,13 @@
-= DESCRIPTION:
+= Blastr, the audible commit radiator
+
+== DESCRIPTION:
 
 Blastr observes a version control repository for commits and makes audible 
 announcements out of the commit messages. It currently supports Subversion, 
 Git, and Mercurial on Linux and OS X, possibly on other UNIX-like operating 
 systems as well.
 
-== FEATURES:
+=== FEATURES:
 
 Blastr can observe a single "branch" (identified by a URL) by polling the
 repository for a commit log. Any new commits will be announced. When 
@@ -23,7 +25,7 @@ The supported operating systems (for running Blastr) include:
 * Mac OS X
 * Linux (requires the eSpeak[http://espeak.sourceforge.net/] or Festival[http://www.cstr.ed.ac.uk/projects/festival/] text-to-speech utility)
 
-== SYNOPSIS:
+=== SYNOPSIS:
 
 Subversion:
 
@@ -43,7 +45,7 @@ Mercurial:
 
   blastr hg:http://hg.serpentine.com/tutorial/hello 2
 
-== REQUIREMENTS:
+=== REQUIREMENTS:
 
 Blastr depends on the git[http://git.rubyforge.org/] gem (>= 1.0.5).
 This dependency should be installed automatically when you install
@@ -61,7 +63,7 @@ utility so Mac users don't need to worry about this. On Linux, Blastr
 can utilize Festival[http://www.cstr.ed.ac.uk/projects/festival/] and 
 eSpeak[http://espeak.sourceforge.net/].
 
-== INSTALL:
+=== INSTALL:
 
 First, install Blastr and its gem dependencies:
 
@@ -73,7 +75,7 @@ and make sure it's on your PATH when running Blastr.
 Then, if applicable, download and install a text-to-speech utility for
 your platform.
 
-== KNOWN PROBLEMS AND GOTCHAS:
+=== KNOWN PROBLEMS AND GOTCHAS:
 
 * Blastr currently does a full clone operation on every poll for 
 source repositories that don't support a purely remote operation (like
@@ -87,7 +89,7 @@ this is technically possible by running to instances of Blastr in
 parallel but every now and then those two instances will speak over
 each other (i.e. all you can hear is cacophony).
 
-== LICENSE:
+=== LICENSE:
 
 (The BSD License)
 
