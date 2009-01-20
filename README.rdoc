@@ -1,5 +1,8 @@
 = Blastr, the audible commit radiator
 
+See the project website at Rubyforge[http://rubyforge.org/projects/blastr/]
+to file a bug report or submit a feature request.
+
 == DESCRIPTION:
 
 Blastr observes a version control repository for commits and makes audible 
