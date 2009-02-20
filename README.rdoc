@@ -12,7 +12,7 @@ systems as well.
 
 === FEATURES:
 
-Blastr can observe a single "branch" (identified by a URL) by polling the
+Blastr can observe a "branch" (identified by a URL) by polling the
 repository for a commit log. Any new commits will be announced. When 
 starting Blastr, it can be told to start observing from a given revision
 or let it figure out the latest revision and start from that.
@@ -88,7 +88,7 @@ your platform.
   Blastr's behavior when encountering weird Norwegian scribble.
 * Some folks might want to monitor multiple repositories or multiple 
   paths or branches within a repository at the same time. Currently,
-  this is technically possible by running to instances of Blastr in
+  this is technically possible by running two instances of Blastr in
   parallel but every now and then those two instances will speak over
   each other (i.e. all you can hear is cacophony).
 
