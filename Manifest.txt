@@ -20,7 +20,9 @@ test/test_git_log_entry.rb
 test/test_git_revision.rb
 test/test_helper.rb
 test/test_mercurial_revision.rb
+test/test_scm_logentry.rb
 test/test_scm_url_matching.rb
+test/test_svn_log.rb
 test/test_svn_revision.rb
 test/test_tts.rb
 website/index.html

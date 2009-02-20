@@ -1,3 +1,7 @@
+== 0.0.13 2009-02-20
+
+* Added support for multi-line comments in SVN.
+
 == 0.0.12 2009-01-19
 
 * Removed extra_dev_deps from newgem configuration (should fix the implicit
