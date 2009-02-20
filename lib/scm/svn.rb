@@ -14,6 +14,10 @@ module Blastr::SourceControl
       @name
     end
     
+    def ==(other)
+      @name == other.name
+    end
+    
     def before?(revision)
       return false if @name == "HEAD"
       return true if revision.name == "HEAD"
@@ -44,9 +48,14 @@ module Blastr::SourceControl
     end
 
     def commits_since(since_revision = 1)
+      svn_log_output = svn_log(since_revision)
+      svn_log_entries(svn_log_output)
+    end
+    
+    def svn_log_entries(log_output)
       nonascii = /([^a-zA-Z0-9\.,:;\-_\?!"'\s]+?)/u
       entries = []
-      svn_log(since_revision).scan(/r(\d+)\s\|\s(.*?)\s\|.*?\n\n(.*)\n-+/u).each do |entry|
+      log_output.scan(/r(\d+)\s\|\s(.*?)\s\|.*?\n\n(.*?)\n(-)+/mu).each do |entry|
         revision = as_revision(entry[0])
         author = entry[1]
         comment = entry[2].gsub(nonascii, 'X ')

@@ -6,6 +6,11 @@ class TestSubversionRevision < Test::Unit::TestCase
     rev = Blastr::SourceControl::SubversionRevision.new("123")
     assert rev.to_s == "123"
   end
+  
+  def test_equality_comparison
+    assert_equal revision("123"), revision("123")
+    assert revision("456") == revision("456")
+  end
 
   def test_before_comparison_between_revisions
     rev123 = Blastr::SourceControl::SubversionRevision.new("123")
@@ -15,9 +20,14 @@ class TestSubversionRevision < Test::Unit::TestCase
   end
 
   def test_before_comparison_with_HEAD
-    rev = Blastr::SourceControl::SubversionRevision.new("100")
-    head = Blastr::SourceControl::SubversionRevision.new("HEAD")
+    rev = revision("100")
+    head = revision("HEAD")
     assert rev.before?(head) == true
     assert head.before?(rev) == false
+  end
+  
+  private
+  def revision(value)
+    Blastr::SourceControl::SubversionRevision.new(value)
   end
 end

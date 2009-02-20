@@ -7,6 +7,9 @@ module Blastr::SourceControl
       @author = author
       @comment = comment
     end
+    def ==(other)
+      @revision == other.revision and @author == other.author and @comment == other.comment
+    end
     def to_s
       "revision #{@revision} by #{@author}: #{@comment}"
     end
