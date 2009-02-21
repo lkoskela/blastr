@@ -1,4 +1,8 @@
-== 0.0.13 2009-02-20
+== 0.0.15 2009-02-21
+
+* Added support for local Mercurial repositories.
+
+== 0.0.14 2009-02-20
 
 * Added support for multi-line comments in Mercurial.
 
