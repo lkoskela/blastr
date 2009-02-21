@@ -53,12 +53,11 @@ module Blastr::SourceControl
     end
     
     def svn_log_entries(log_output)
-      nonascii = /([^a-zA-Z0-9\.,:;\-_\?!"'\s]+?)/u
       entries = []
       log_output.scan(/r(\d+)\s\|\s(.*?)\s\|.*?\n\n(.*?)\n(-)+/mu).each do |entry|
         revision = as_revision(entry[0])
         author = entry[1]
-        comment = entry[2].gsub(nonascii, 'X ')
+        comment = entry[2]
         entries << LogEntry.new(revision, author, comment)
       end
       entries
