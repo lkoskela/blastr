@@ -1,4 +1,4 @@
-== 0.0.16
+== 0.0.16 2009-02-22
 
 * Added support for HTTP-based, SSH-based, Rsync-based, and file system-based Git URLs.
 
