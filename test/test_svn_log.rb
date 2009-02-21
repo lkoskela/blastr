@@ -53,7 +53,7 @@ EOS
   end
 
 
-  def test_one_multiline_entry
+  def test_multiple_multiline_entries
     log = <<EOS
 ------------------------------------------------------------------------
 r2 | bob | 2009-01-21 09:02:00 +0200 (Wed, 21 Jan 2009) | 1 line
