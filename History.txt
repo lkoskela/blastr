@@ -1,4 +1,8 @@
-== 0.0.16 2009-02-22
+== 0.0.17 2009-02-21
+
+* Removed replacement of non-ascii characters in commit messages.
+
+== 0.0.16 2009-02-21
 
 * Added support for HTTP-based, SSH-based, Rsync-based, and file system-based Git URLs.
 
