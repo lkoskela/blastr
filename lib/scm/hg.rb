@@ -29,7 +29,7 @@ module Blastr::SourceControl
     def name; "Mercurial"; end
 
     def self.understands_url?(url)
-      url.index("hg:http") == 0
+      url.index("hg:") == 0
     end
 
     def initialize(repo_url)

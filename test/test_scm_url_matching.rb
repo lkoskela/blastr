@@ -1,34 +1,31 @@
 require File.dirname(__FILE__) + '/test_helper.rb'
 
 class TestScmURLMatching < Test::Unit::TestCase
-  GIT_URL = "git://foo.com/bar.git"
-  MERCURIAL_URL = "hg:http://foo.com/svn"
-  SVN_HTTP_URL = "http://foo.com/svn"
-  SVN_HTTPS_URL = "https://foo.com/svn"
-  SVN_NATIVE_URL = "svn://foo.com/svn"
-  SVN_URLS = [ SVN_HTTP_URL, SVN_HTTPS_URL, SVN_NATIVE_URL ]
-  ALL_URLS = [ SVN_URLS, GIT_URL, MERCURIAL_URL ].flatten
+
+  GIT_URLS = [ "git://foo.com/bar.git" ]
+  MERCURIAL_URLS = [ "hg:http://foo.com/hg", "hg:/tmp/hg/repo" ]
+  SVN_URLS = [ "http://foo.com/svn", "https://foo.com/svn", "svn://foo.com/svn" ]
+  ALL_URLS = [ SVN_URLS, GIT_URLS, MERCURIAL_URLS ].flatten
   
   def test_subversion
-    SVN_URLS.each do |url|
-      assert Blastr::SourceControl::Subversion.understands_url?(url), "#{url} should be a Subversion URL!"
-    end
-    ALL_URLS.reject {|url| SVN_URLS.include?(url) }.each do |url|
-      assert Blastr::SourceControl::Subversion.understands_url?(url) == false, "#{url} should not be a Subversion URL!"
-    end
+    assert_urls_are_understood_by(Blastr::SourceControl::Subversion, SVN_URLS)
   end
 
   def test_git
-    assert Blastr::SourceControl::Git.understands_url?(GIT_URL)
-    ALL_URLS.reject {|url| url == GIT_URL }.each do |url|
-      assert Blastr::SourceControl::Git.understands_url?(url) == false, "#{url} should not be a Git URL!"
-    end
+    assert_urls_are_understood_by(Blastr::SourceControl::Git, GIT_URLS)
   end
 
   def test_mercurial
-    assert Blastr::SourceControl::Mercurial.understands_url?(MERCURIAL_URL)
-    ALL_URLS.reject {|url| url == MERCURIAL_URL }.each do |url|
-      assert Blastr::SourceControl::Mercurial.understands_url?(url) == false, "#{url} should not be a Mercurial URL!"
+    assert_urls_are_understood_by(Blastr::SourceControl::Mercurial, MERCURIAL_URLS)
+  end
+  
+  private
+  def assert_urls_are_understood_by(scm, list_of_urls)
+    list_of_urls.each do |url|
+      assert scm.understands_url?(url), "#{url} should be understood by #{scm}!"
+    end
+    ALL_URLS.reject {|url| list_of_urls.include?(url) }.each do |url|
+      assert scm.understands_url?(url) == false, "#{url} should not be understood by #{scm}!"
     end
   end
 end
