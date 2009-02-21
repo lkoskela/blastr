@@ -29,7 +29,7 @@ module Blastr::SourceControl
     def name; "Subversion"; end
     
     def self.understands_url?(url)
-      not url.match(/^(https?|svn):\/\/.+$/u).nil?
+      not url.match(/^(https?:|svn:)(.+)$/).nil?
     end
     
     def initialize(svn_url)

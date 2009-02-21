@@ -1,3 +1,7 @@
+== 0.0.16
+
+* Added support for HTTP-based, SSH-based, Rsync-based, and file system-based Git URLs.
+
 == 0.0.15 2009-02-21
 
 * Added preliminary support for local Mercurial repositories.

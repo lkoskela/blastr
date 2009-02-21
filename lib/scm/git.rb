@@ -35,7 +35,11 @@ module Blastr::SourceControl
     def name; "Git"; end
 
     def self.understands_url?(url)
-      url.index("git://") == 0
+      patterns = [ /^(git:)(.*)$/, /^(.*)(\.git)(\/?)$/ ]
+      patterns.each do |regex|
+        return true if url =~ regex
+      end
+      false
     end
 
     def initialize(git_url)
