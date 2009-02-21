@@ -1,6 +1,6 @@
 == 0.0.13 2009-02-20
 
-* Added support for multi-line comments in SVN.
+* Added support for multi-line comments in SVN and Mercurial.
 
 == 0.0.12 2009-01-19
 

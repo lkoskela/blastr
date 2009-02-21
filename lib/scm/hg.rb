@@ -14,6 +14,10 @@ module Blastr::SourceControl
       @name
     end
     
+    def ==(other)
+      @name == other.name
+    end
+    
     def before?(revision)
       return false if @name == "tip"
       return true if revision.name == "tip"
@@ -49,28 +53,24 @@ module Blastr::SourceControl
       end
     end
     
-    private
-    def hg_log(revision = 0)
+    def hg_log_entries(output)
       nonascii = /([^a-zA-Z0-9\.,:;\-_\?!"'\s]+?)/u
       entries = []
       current_changeset = {}
-      %x[hg log -r #{revision}:].each_line do |line|
-        if line =~ /^changeset:\s+(.+?):(.+?)$/
-          entries << current_changeset unless current_changeset.empty?
-          current_changeset = { :revision => $1, :hash => $2 }
-        elsif line =~ /^user:\s+(.+?)(\s<(.+?)@(.+?)>)?$/
-          current_changeset[:author] = $1
-        elsif line =~ /^summary:\s+(.+?)$/
-          current_changeset[:comment] = $1.strip
-        elsif current_changeset.key? :comment
-          current_changeset[:comment] = "#{current_changeset[:comment]} #{line.strip}"
+      output.split(/-{69,71}/).each do |entry|
+        if entry =~ /^changeset (\d+):(.+) by (.+):\n(.*)/mu
+          entries << LogEntry.new(as_revision($1), $3, $4.strip)
         end
       end
-      entries << current_changeset unless current_changeset.empty?
-      
-      entries.collect do |map|
-        LogEntry.new(as_revision(map[:revision]), map[:author], map[:comment].gsub(nonascii, 'X '))
-      end
+      entries
+    end
+    
+    private
+    def hg_log(revision = 0)
+      separator = "-" * 70
+      template = "\\nchangeset {rev}:{node} by {author}:\\n{desc}\\n#{separator}"
+      output = %x[hg log -r '#{revision}:' --template '#{template}'].strip
+      hg_log_entries(output)
     end
     
     private
