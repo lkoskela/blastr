@@ -54,7 +54,6 @@ module Blastr::SourceControl
     end
     
     def hg_log_entries(output)
-      nonascii = /([^a-zA-Z0-9\.,:;\-_\?!"'\s]+?)/u
       entries = []
       current_changeset = {}
       output.split(/-{69,71}/).each do |entry|
