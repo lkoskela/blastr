@@ -1,6 +1,6 @@
 == 0.0.15 2009-02-21
 
-* Added support for local Mercurial repositories.
+* Added preliminary support for local Mercurial repositories.
 
 == 0.0.14 2009-02-20
 
