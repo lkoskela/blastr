@@ -6,7 +6,7 @@ module Blastr
   require 'tts/tts.rb'
   require 'people/people.rb'
 
-  VERSION = '0.0.17'
+  VERSION = '0.0.16'
   COPYRIGHT = 'Copyright (c) 2009, Lasse Koskela. All Rights Reserved.'
   puts "Blastr #{VERSION}\n#{COPYRIGHT}\n"
   
