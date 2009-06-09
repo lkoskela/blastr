@@ -96,5 +96,4 @@ EOS
     temp_file.unlink
     temp_dir
   end
-
 end
