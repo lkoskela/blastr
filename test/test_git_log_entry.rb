@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/test_helper.rb'
 
 class TestGitLogEntry < Test::Unit::TestCase
-  
   COMMIT_HASH = "db4ace1c9ba6add9a2b08c153367e2b379f8fb4c"
   COMMIT_DATE = Time.now
   COMMIT_AUTHOR = "johndoe"
