@@ -45,8 +45,22 @@ module Blastr
     end
 
     def TTS::speak(msg)
-      resolve_tts_system.speak(msg.gsub(/"/u, '\"').gsub(/'/u, '\''))
+      msg.gsub!(/"/u, '\"')
+      msg.gsub!(/'/u, '\'')
+      resolve_tts_system.speak(normalize_for_speech(msg))
     end
 
+    private
+    def TTS::normalize_for_speech(msg)
+      msg.gsub!(/(.*?)([^\w])(.?)/, '\1 \2 \3').squeeze!
+      words = msg.split(/\s/).collect do |word|
+        camel_case_word = /[A-Z][a-z0-9_]+/
+        if word =~ camel_case_word
+          word = word.scan(camel_case_word)
+        end
+        word
+      end
+      words.flatten.join(' ')
+    end
   end
 end
