@@ -60,7 +60,10 @@ module Blastr
 
     private
     def TTS::normalize_for_speech(msg)
-      msg.gsub!(/(.*?)([^\w])(.?)/, '\1 \2 \3').squeeze!
+      msg = omit_url_scheme("git", msg)
+      msg = omit_url_scheme("http", msg)
+      msg = omit_url_scheme("https", msg)
+      msg.gsub!(/(.*?)([^\w\(\)])(.?)/, '\1 \2 \3').squeeze!(" ")
       words = msg.split(/\s/).collect do |word|
         camel_case_word = /[A-Z][a-z0-9_]+/
         if word =~ camel_case_word
@@ -69,6 +72,12 @@ module Blastr
         word
       end
       words.flatten.join(' ')
+    end
+    
+    def TTS::omit_url_scheme(scheme, msg)
+      return nil if msg.nil?
+      msg.gsub!(/\b#{scheme}:\/\/([^\s]+)/, '(path omitted)')
+      msg
     end
   end
 end

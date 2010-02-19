@@ -23,4 +23,15 @@ class TestCamelCaseSpelling < Test::Unit::TestCase
     @tts.expects(:speak).with("is this Camel Case ?")
     Blastr::TTS.speak("is this CamelCase?")
   end
+  
+  def test_git_urls_are_not_spoken_out
+    @tts.expects(:speak).with("Merge X from (path omitted) into Y")
+    Blastr::TTS.speak("Merge X from git://github.com/lassekoskela/blastr into Y")
+  end
+  
+  def test_http_urls_are_not_spoken_out
+    @tts.expects(:speak).with("Merge X from (path omitted) into Y").times(2)
+    Blastr::TTS.speak("Merge X from http://repo.com/svn/path into Y")
+    Blastr::TTS.speak("Merge X from https://repo.com/svn/file.txt into Y")
+  end
 end
