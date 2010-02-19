@@ -14,6 +14,13 @@ class TestCamelCaseSpelling < Test::Unit::TestCase
     Blastr::TTS.stubs(:resolve_tts_system).returns(@tts)
   end
 
+  def test_regular_statements_are_spelled_as_is
+    @tts.expects(:speak).with("Have you tried Blastr yet ?")
+    @tts.expects(:speak).with("Yes , I have .")
+    Blastr::TTS.speak("Have you tried Blastr yet?")
+    Blastr::TTS.speak("Yes, I have.")
+  end
+
   def test_spelling_out_camel_case_words
     @tts.expects(:speak).with("this is Camel Case")
     Blastr::TTS.speak("this is CamelCase")
