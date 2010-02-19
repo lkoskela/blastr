@@ -9,7 +9,7 @@ module Blastr
       end
       
       def binary
-        %x[which #{@name}].strip
+        %x[#{locate_which_binary} #{@name}].strip
       end
       
       def available?
@@ -18,6 +18,14 @@ module Blastr
       
       def speak(msg)
         %x[#{binary} "#{msg}"]
+      end
+
+      private
+      def locate_which_binary
+        @path_to_which_command ||= ['/bin/which', '/usr/bin/which'].find do |path|
+          File.exists? path
+        end
+        @path_to_which_command ||= 'which'
       end
     end
 
