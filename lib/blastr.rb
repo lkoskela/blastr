@@ -65,6 +65,7 @@ module Blastr
     temp_file = Tempfile.new("tmp")
     temp_dir = temp_file.path
     temp_file.unlink
+    FileUtils.mkdir_p(temp_dir)
     temp_dir
   end
 end
