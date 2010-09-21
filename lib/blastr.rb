@@ -9,7 +9,6 @@ module Blastr
 
   VERSION = '0.0.18'
   COPYRIGHT = "Copyright (c) 2009-#{Time.now.year}, Lasse Koskela. All Rights Reserved."
-  puts "Blastr #{VERSION}\n#{COPYRIGHT}\n"
   
   def self.trap_and_exit(signal)
     trap(signal) {

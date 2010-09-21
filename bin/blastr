@@ -2,6 +2,7 @@
 
 require 'rubygems'
 require "#{File.dirname(__FILE__)}/../lib/blastr.rb"
+puts "Blastr #{Blastr::VERSION}\n#{Blastr::COPYRIGHT}\n"
 
 begin
   Blastr::Process.new(ARGV).run
