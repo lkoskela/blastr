@@ -29,11 +29,15 @@ module Blastr::SourceControl
     def name; "Subversion"; end
     
     def self.understands_url?(url)
-      not url.match(/^(https?:|svn:)(.+)$/).nil?
+      local_repository?(url) or has_protocol_scheme?(url)
     end
     
     def initialize(svn_url)
-      @svn_url = svn_url
+      @svn_url = with_protocol_scheme(svn_url)
+    end
+    
+    def url
+      @svn_url
     end
     
     def as_revision(arg)
@@ -64,6 +68,22 @@ module Blastr::SourceControl
     end
 
     private
+    
+    def with_protocol_scheme(path)
+      return path if Subversion.has_protocol_scheme?(path)
+      "file://#{path}"
+    end
+    
+    def self.has_protocol_scheme?(path)
+      not path.match(/^(https?:|svn:|file:)(.+)$/).nil?
+    end
+    
+    def self.local_repository?(path)
+      path = path["file://".length..-1] if path.start_with? "file://"
+      return false unless File.directory?(path)
+      File.exist?(File.join(path, 'format'))
+    end
+    
     def svn_log(since_revision = as_revision("1"))
       temp_file = Tempfile.new("svn.log").path
       Blastr::delete_at_exit(temp_file)

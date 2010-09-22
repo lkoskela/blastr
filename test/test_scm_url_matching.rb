@@ -37,6 +37,26 @@ class TestScmURLMatching < Test::Unit::TestCase
     "svn:https://foo.com/svn",
     "svn://foo.com/svn" ]
   
+  def setup
+    @local_svn_repo = File.join(Blastr::temp_dir, 'svn_repo')
+    FileUtils.mkdir_p(@local_svn_repo)
+    %x[svnadmin create #{@local_svn_repo}]
+    assert File.directory? @local_svn_repo
+  end
+  
+  def teardown
+    FileUtils.rm_rf(@local_svn_repo)
+  end
+  
+  def test_local_subversion_repository
+    local_repositories = [ @local_svn_repo, "file://#{@local_svn_repo}"]
+    assert_urls_are_understood_by(Blastr::SourceControl::Subversion, local_repositories)
+  end
+  
+  def test_subversion_doesnt_claim_to_understand_a_local_non_repository_directory
+    assert_equal false, Blastr::SourceControl::Subversion.understands_url?(File.dirname(@local_svn_repo))
+  end
+  
   def test_subversion
     assert_urls_are_understood_by(Blastr::SourceControl::Subversion, SVN_URLS)
   end
