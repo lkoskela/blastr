@@ -46,6 +46,10 @@ module Blastr::SourceControl
     def initialize(git_url)
       @git_url = git_url
     end
+    
+    def url
+      @git_url
+    end
 
     def as_revision(arg)
       raise "Invalid revision: #{arg}" unless arg =~ /^(HEAD(~\d+)?)|([\d\w:-]+)$/
