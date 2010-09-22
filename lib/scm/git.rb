@@ -35,6 +35,7 @@ module Blastr::SourceControl
     def name; "Git"; end
 
     def self.understands_url?(url)
+      return true if local_repository?(url)
       patterns = [ /^(git:)(.*)$/, /^(.*)(\.git)(\/?)$/ ]
       patterns.each do |regex|
         return true if url =~ regex
@@ -58,7 +59,7 @@ module Blastr::SourceControl
     end
   
     def latest_revision
-      commits = commits_since(as_revision("HEAD~5"))
+      commits = commits_since(as_revision("HEAD~1"))
       return as_revision("HEAD") unless commits.size > 0
       GitRevision.new(commits.last.revision.to_s)
     end
@@ -74,6 +75,13 @@ module Blastr::SourceControl
     end
     
     private
+    
+    def self.local_repository?(path)
+      path = path["file://".length..-1] if path.start_with? "file://"
+      return false unless File.directory?(path)
+      File.directory?(File.join(path, '.git'))
+    end
+    
     def with_clone
       temp_dir = Blastr::temp_dir
       Blastr::delete_at_exit(temp_dir)

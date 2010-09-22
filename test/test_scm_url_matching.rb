@@ -38,10 +38,8 @@ class TestScmURLMatching < Test::Unit::TestCase
     "svn://foo.com/svn" ]
   
   def setup
-    @local_svn_repo = File.join(Blastr::temp_dir, 'svn_repo')
-    FileUtils.mkdir_p(@local_svn_repo)
-    %x[svnadmin create #{@local_svn_repo}]
-    assert File.directory? @local_svn_repo
+    create_local_svn_repo
+    create_local_git_repo
   end
   
   def teardown
@@ -57,6 +55,15 @@ class TestScmURLMatching < Test::Unit::TestCase
     assert_equal false, Blastr::SourceControl::Subversion.understands_url?(File.dirname(@local_svn_repo))
   end
   
+  def test_local_git_repository
+    local_repositories = [ @local_git_repo, "file://#{@local_git_repo}"]
+    assert_urls_are_understood_by(Blastr::SourceControl::Git, local_repositories)
+  end
+  
+  def test_git_doesnt_claim_to_understand_a_local_non_repository_directory
+    assert_equal false, Blastr::SourceControl::Subversion.understands_url?(File.dirname(@local_git_repo))
+  end
+  
   def test_subversion
     assert_urls_are_understood_by(Blastr::SourceControl::Subversion, SVN_URLS)
   end
@@ -70,9 +77,22 @@ class TestScmURLMatching < Test::Unit::TestCase
   end
   
   private
+  
   def assert_urls_are_understood_by(scm, list_of_urls)
     list_of_urls.each do |url|
       assert scm.understands_url?(url), "#{url} should be understood by #{scm}!"
     end
+  end
+  
+  def create_local_svn_repo
+    @local_svn_repo = File.join(Blastr::temp_dir, 'svn_repo')
+    %x[svnadmin create #{@local_svn_repo}]
+    assert File.directory? @local_svn_repo
+  end
+  
+  def create_local_git_repo
+    @local_git_repo = File.join(Blastr::temp_dir, 'git_repo')
+    %x[git init #{@local_git_repo}]
+    assert File.directory? @local_git_repo
   end
 end
