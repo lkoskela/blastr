@@ -8,8 +8,12 @@ class TestMercurial < AbstractScmTestCase
     "hg:/tmp/hg/repo",
     "hg:/tmp/hg/repo/" ]
   
-  def test_mercurial
+  def test_mercurial_urls
     assert_urls_are_understood(MERCURIAL_URLS)
+  end
+  
+  def test_non_mercurial_urls
+    assert_urls_are_not_understood(["http://acme.com/foo"])
   end
   
   def scm
