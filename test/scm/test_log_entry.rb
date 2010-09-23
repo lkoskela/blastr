@@ -8,6 +8,11 @@ class TestLogEntry < Test::Unit::TestCase
     assert_not_equal create_log_entry(:comment => "Oh"), create_log_entry(:comment => "Yeah")
   end
   
+  def test_prints_out_human_readably
+    entry = create_log_entry(:revision => "123", :author => "Lasse", :comment => "Fix")
+    assert_equal "revision 123 by Lasse: Fix", entry.to_s
+  end
+  
   private
   def create_log_entry(args = {})
     defaults = { :revision => "rev", :author => "author", :comment => "comment" }
