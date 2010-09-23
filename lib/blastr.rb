@@ -36,7 +36,7 @@ module Blastr
     
     def run
       puts "Polling #{@scm.name} commits since revision #{@since_revision}..."
-      while true
+      while should_run?
         announce_new_commits
         sleep 30
       end
@@ -48,6 +48,9 @@ module Blastr
     end
     
     private
+    
+    def should_run? ; true ; end
+    
     def announce_new_commits
       @scm.commits_since(@since_revision.to_s).each do |commit|
         if @since_revision.before?(commit.revision)
@@ -56,6 +59,7 @@ module Blastr
         end
       end
     end
+
     def validate(args=[])
       raise UsageError.new if args.size == 0 or args.size > 2
     end
