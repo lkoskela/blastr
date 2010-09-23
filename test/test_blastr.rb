@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) + '/test_helper.rb'
+require File.expand_path(File.join(File.dirname(__FILE__), 'test_helper.rb'))
 
 class TestBlastrProcess < Test::Unit::TestCase
   def test_command_line_arguments_are_validated

@@ -1,6 +1,6 @@
 require 'stringio'
 require 'test/unit'
-require File.dirname(__FILE__) + '/../lib/blastr'
+require File.expand_path(File.join(File.dirname(__FILE__), '../lib/blastr'))
 
 class Test::Unit::TestCase
   # implement a declaration 'abstract' that can be used to make 
@@ -16,4 +16,4 @@ class Test::Unit::TestCase
   end
 end
 
-require File.dirname(__FILE__) + '/abstract_scm_testcase.rb'
+require File.expand_path(File.join(File.dirname(__FILE__), 'scm/abstract_scm_testcase.rb'))

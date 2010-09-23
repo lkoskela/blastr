@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 require 'rubygems'
-require "#{File.dirname(__FILE__)}/../lib/blastr.rb"
+require File.expand_path(File.join(File.dirname(__FILE__), '../lib/blastr.rb'))
 puts "Blastr #{Blastr::VERSION}\n#{Blastr::COPYRIGHT}\n"
 
 begin

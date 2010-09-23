@@ -1,11 +1,11 @@
-$:.unshift(File.dirname(__FILE__)) unless
-  $:.include?(File.dirname(__FILE__)) || $:.include?(File.expand_path(File.dirname(__FILE__)))
+$LOAD_PATH.unshift(File.dirname(__FILE__)) unless
+  $LOAD_PATH.include?(File.dirname(__FILE__)) or $LOAD_PATH.include?(File.expand_path(File.dirname(__FILE__)))
 
 module Blastr
-  require 'error.rb'
-  require 'scm/scm.rb'
-  require 'tts/tts.rb'
-  require 'people/people.rb'
+  require File.expand_path(File.join(File.dirname(__FILE__), 'error.rb'))
+  require File.expand_path(File.join(File.dirname(__FILE__), 'scm/scm.rb'))
+  require File.expand_path(File.join(File.dirname(__FILE__), 'tts/tts.rb'))
+  require File.expand_path(File.join(File.dirname(__FILE__), 'people/people.rb'))
 
   VERSION = '0.0.18'
   COPYRIGHT = "Copyright (c) 2009-#{Time.now.year}, Lasse Koskela. All Rights Reserved."

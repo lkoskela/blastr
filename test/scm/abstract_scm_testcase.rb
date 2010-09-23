@@ -1,7 +1,4 @@
-require File.dirname(__FILE__) + '/test_helper.rb'
-
-class AbstractScmTestCase < Test::Unit::TestCase
-  
+class AbstractScmTestCase < Test::Unit::TestCase  
   abstract
 
   def assert_urls_are_understood(list_of_urls)

@@ -30,6 +30,6 @@ module Blastr::SourceControl
   
 end
 
-require File.dirname(__FILE__) + '/svn.rb'
-require File.dirname(__FILE__) + '/git.rb'
-require File.dirname(__FILE__) + '/hg.rb'
+['svn', 'git', 'hg'].each do |scm|
+  require File.expand_path(File.join(File.dirname(__FILE__), "#{scm}.rb"))
+end
