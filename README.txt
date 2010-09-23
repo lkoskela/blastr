@@ -38,11 +38,19 @@ Subversion:
 
   blastr http://svn.acme.com/foo/trunk 123
 
+  blastr file:///var/svnrepo
+
+  blastr /var/svnrepo
+
 Git:
 
   blastr git://github.com/lkoskela/blastr.git
 
   blastr git://github.com/lkoskela/blastr.git e528509fddd57194f1c497ce6583f6869e8ed62c
+
+  blastr file:///var/gitrepo
+
+  blastr /var/gitrepo
 
 Mercurial:
 
