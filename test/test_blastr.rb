@@ -43,7 +43,7 @@ class TestBlastrProcess < Test::Unit::TestCase
     assert_equal 3*30, process.seconds_slept
   end
   
-  def test_announcing_new_commits
+  def test_announcing_all_new_commits
     since_revision = '1'
     commits = [ fake_commit('2'), fake_commit('3') ]
     commit_sequence = sequence('commit sequence')
@@ -53,6 +53,14 @@ class TestBlastrProcess < Test::Unit::TestCase
     process.expects(:announce).with(commits.first).in_sequence(commit_sequence)
     process.expects(:announce).with(commits.last).in_sequence(commit_sequence)
     process.send(:announce_new_commits)
+  end
+  
+  def test_announcing_a_given_commit
+    process = create_blastr_process_polling("http://svn.com", '1')
+    commit = fake_commit('42')
+    Blastr::People.stubs(:full_name_of).returns('Full Name')
+    Blastr::TTS.expects(:speak).with("Commit by Full Name: #{commit.comment}")
+    process.announce(commit)
   end
   
   private
