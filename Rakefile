@@ -17,6 +17,6 @@ Hoe.spec 'blastr' do
   remote_rdoc_dir = '' # Release to root
   rsync_args = '-av --delete --ignore-errors'
   extra_deps = [
-    ['git','>= 1.0.5'],
+    ['git','>= 1.2.5'],
   ]
 end
