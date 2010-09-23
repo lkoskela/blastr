@@ -22,7 +22,7 @@ module Blastr
   end
 end
 
-class TestBlastrProcess < Test::Unit::TestCase
+class TestBlastrProcessArguments < Test::Unit::TestCase
   def test_command_line_arguments_are_validated
     assert_raise Blastr::UsageError do
       Blastr::Process.new([])
@@ -34,33 +34,35 @@ class TestBlastrProcess < Test::Unit::TestCase
       Blastr::Process.new(["http://svn.com", "123"])
     end
   end
+end
+
+class TestBlastrProcess < Test::Unit::TestCase
+  def setup
+    @since_revision = '1'
+    @process = create_blastr_process_polling("http://svn.com", @since_revision)
+  end
   
   def test_polls_for_new_commits_every_30_seconds
-    process = create_blastr_process_polling("http://svn.com", "123")
-    process.expects(:announce_new_commits).times(3)
-    process.run
-    
-    assert_equal 3*30, process.seconds_slept
+    @process.expects(:announce_new_commits).times(3)
+    @process.run
+    assert_equal 3*30, @process.seconds_slept
   end
   
   def test_announcing_all_new_commits
-    since_revision = '1'
     commits = [ fake_commit('2'), fake_commit('3') ]
     commit_sequence = sequence('commit sequence')
-    
-    process = create_blastr_process_polling("http://svn.com", since_revision)
-    process.scm.expects(:commits_since).with(since_revision).returns(commits)
-    process.expects(:announce).with(commits.first).in_sequence(commit_sequence)
-    process.expects(:announce).with(commits.last).in_sequence(commit_sequence)
-    process.send(:announce_new_commits)
+    @process.scm.expects(:commits_since).with(@since_revision).returns(commits)
+    @process.expects(:announce).with(commits.first).in_sequence(commit_sequence)
+    @process.expects(:announce).with(commits.last).in_sequence(commit_sequence)
+    @process.send(:announce_new_commits)
   end
   
   def test_announcing_a_given_commit
-    process = create_blastr_process_polling("http://svn.com", '1')
     commit = fake_commit('42')
     Blastr::People.stubs(:full_name_of).returns('Full Name')
     Blastr::TTS.expects(:speak).with("Commit by Full Name: #{commit.comment}")
-    process.announce(commit)
+    @process.expects(:puts).with("[#{commit.revision}] Commit by #{commit.author}: #{commit.comment}")
+    @process.announce(commit)
   end
   
   private
