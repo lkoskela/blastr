@@ -92,7 +92,7 @@ module Blastr::SourceControl
     
     def with_clone
       temp_dir = Blastr::temp_dir
-      Blastr::delete_at_exit(temp_dir)
+      Blastr::FileSystem::delete_at_exit(temp_dir)
       begin
         clone = ::Git.clone(@git_url, temp_dir)
         clone.chdir do

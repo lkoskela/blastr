@@ -86,7 +86,7 @@ module Blastr::SourceControl
     
     def svn_log(since_revision = as_revision("1"))
       temp_file = Tempfile.new("svn.log").path
-      Blastr::delete_at_exit(temp_file)
+      Blastr::FileSystem::delete_at_exit(temp_file)
       begin
         revision = "#{since_revision}:#{as_revision('HEAD')}"
         revision = as_revision("HEAD") if since_revision.to_s == as_revision("HEAD").to_s

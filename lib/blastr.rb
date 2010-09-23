@@ -3,6 +3,7 @@ $LOAD_PATH.unshift(File.dirname(__FILE__)) unless
 
 module Blastr
   require File.expand_path(File.join(File.dirname(__FILE__), 'error.rb'))
+  require File.expand_path(File.join(File.dirname(__FILE__), 'filesystem.rb'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'scm/scm.rb'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'tts/tts.rb'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'people/people.rb'))
@@ -12,16 +13,9 @@ module Blastr
   
   def self.trap_and_exit(signal)
     trap(signal) {
-      puts ""
+      puts "\nBye!"
       exit 0
     }
-  end
-  
-  def self.delete_at_exit(file_or_directory)
-    at_exit do
-      puts "Cleaning up leftovers: #{temp_dir}" if File.directory?(temp_dir) if $DEBUG
-      FileUtils.remove_dir(temp_dir, :force => true)
-    end
   end
 
   class Process
@@ -63,13 +57,5 @@ module Blastr
     def validate(args=[])
       raise UsageError.new if args.size == 0 or args.size > 2
     end
-  end
-  
-  def Blastr::temp_dir
-    temp_file = Tempfile.new("tmp")
-    temp_dir = temp_file.path
-    temp_file.unlink
-    FileUtils.mkdir_p(temp_dir)
-    temp_dir
   end
 end

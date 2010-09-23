@@ -55,7 +55,7 @@ class TestGit < AbstractScmTestCase
   private
   
   def create_local_repo
-    dir = File.join(Blastr::temp_dir, 'git_repo')
+    dir = File.join(Blastr::FileSystem.temp_dir, 'git_repo')
     %x[git init #{dir}]
     assert File.directory? dir
     dir

@@ -28,7 +28,7 @@ class TestPeopleFile < Test::Unit::TestCase
   private
   def backup_people_file
     people_file = Blastr::People::PEOPLE_FILE
-    @backup_of_people_file = File.join(Blastr::temp_dir, File.basename(people_file))
+    @backup_of_people_file = File.join(Blastr::FileSystem.temp_dir, File.basename(people_file))
     FileUtils.cp(people_file, @backup_of_people_file)
   end
   def restore_people_file

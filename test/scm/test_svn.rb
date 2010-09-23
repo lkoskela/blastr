@@ -51,7 +51,7 @@ class TestSubversion < AbstractScmTestCase
   end
   
   def create_local_repo
-    dir = File.join(Blastr::temp_dir, 'svn_repo')
+    dir = File.join(Blastr::FileSystem.temp_dir, 'svn_repo')
     %x[svnadmin create #{dir}]
     assert File.directory? dir
     dir
