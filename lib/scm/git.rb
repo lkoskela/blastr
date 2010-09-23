@@ -14,9 +14,10 @@ module Blastr::SourceControl
   class GitRevision
     attr_accessor :name, :date
     
-    def initialize(name, date = Time.now)
+    def initialize(name, date)
       @name = name
       @date = date
+      raise ArgumentError if date.nil? and name != "HEAD"
     end
     
     def to_s
@@ -26,8 +27,11 @@ module Blastr::SourceControl
     def before?(revision)
       return false if @name == "HEAD"
       return true if revision.name == "HEAD"
-      return @date < revision.date unless @date.nil?
-      @name < revision.name
+      @date < revision.date
+    end
+    
+    def self.head
+      GitRevision.new("HEAD", nil)
     end
   end
     
@@ -65,7 +69,7 @@ module Blastr::SourceControl
     def latest_revision
       commits = commits_since(as_revision("HEAD~1"))
       return as_revision("HEAD") unless commits.size > 0
-      GitRevision.new(commits.last.revision.to_s)
+      GitRevision.new(commits.last.revision.to_s, commits.last.revision.date)
     end
 
     def commits_since(revision)
