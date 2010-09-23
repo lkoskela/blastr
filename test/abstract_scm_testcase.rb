@@ -10,6 +10,12 @@ class AbstractScmTestCase < Test::Unit::TestCase
     end
   end
 
+  def assert_urls_are_not_understood(list_of_urls)
+    list_of_urls.each do |url|
+      assert_equal false, scm.understands_url?(url), "#{url} should not be understood by #{scm}!"
+    end
+  end
+
   def scm
     raise "#{self.class} needs to implement the method scm()"
   end

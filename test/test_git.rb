@@ -24,11 +24,11 @@ class TestGit < AbstractScmTestCase
     "/path/to/repo.git/" ]
 
   def setup
-    @local_git_repo = create_local_git_repo
+    @local_repo = create_local_repo
   end
 
   def teardown
-    FileUtils.rm_rf(@local_git_repo)
+    FileUtils.rm_rf(@local_repo)
   end
 
   def test_knows_its_url
@@ -42,22 +42,23 @@ class TestGit < AbstractScmTestCase
     assert_urls_are_understood(GIT_URLS)
   end
   
-  def test_local_git_repository
-    local_repositories = [ @local_git_repo, "file://#{@local_git_repo}"]
+  def test_local_repository
+    local_repositories = [ @local_repo, "file://#{@local_repo}"]
     assert_urls_are_understood(local_repositories)
   end
   
   def test_git_doesnt_claim_to_understand_a_local_non_repository_directory
-    assert_equal false, scm.understands_url?(File.dirname(@local_git_repo))
+    parent_of_git_repo = File.dirname(@local_repo)
+    assert_urls_are_not_understood([ parent_of_git_repo ])
   end
 
   private
   
-  def create_local_git_repo
-    local_git_repo = File.join(Blastr::temp_dir, 'git_repo')
-    %x[git init #{local_git_repo}]
-    assert File.directory? local_git_repo
-    local_git_repo
+  def create_local_repo
+    dir = File.join(Blastr::temp_dir, 'git_repo')
+    %x[git init #{dir}]
+    assert File.directory? dir
+    dir
   end
 
   def scm

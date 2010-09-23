@@ -13,11 +13,11 @@ class TestSubversion < AbstractScmTestCase
     "svn://foo.com/svn" ]
 
   def setup
-    @local_svn_repo = create_local_svn_repo
+    @local_repo = create_local_repo
   end
   
   def teardown
-    FileUtils.rm_rf(@local_svn_repo)
+    FileUtils.rm_rf(@local_repo)
   end
 
   def test_knows_its_url
@@ -30,13 +30,14 @@ class TestSubversion < AbstractScmTestCase
     assert_equal "file:///repo", repo.url
   end
   
-  def test_local_subversion_repository
-    local_repositories = [ @local_svn_repo, "file://#{@local_svn_repo}"]
+  def test_local_repository
+    local_repositories = [ @local_repo, "file://#{@local_repo}"]
     assert_urls_are_understood(local_repositories)
   end
   
   def test_subversion_doesnt_claim_to_understand_a_local_non_repository_directory
-    assert_equal false, scm.understands_url?(File.dirname(@local_svn_repo))
+    parent_of_svn_repo = File.dirname(@local_repo)
+    assert_urls_are_not_understood([ parent_of_svn_repo ])
   end
   
   def test_subversion
@@ -49,11 +50,11 @@ class TestSubversion < AbstractScmTestCase
     Blastr::SourceControl::Subversion
   end
   
-  def create_local_svn_repo
-    local_svn_repo = File.join(Blastr::temp_dir, 'svn_repo')
-    %x[svnadmin create #{local_svn_repo}]
-    assert File.directory? local_svn_repo
-    local_svn_repo
+  def create_local_repo
+    dir = File.join(Blastr::temp_dir, 'svn_repo')
+    %x[svnadmin create #{dir}]
+    assert File.directory? dir
+    dir
   end
 
 end
