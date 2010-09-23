@@ -57,7 +57,6 @@ module Blastr::SourceControl
 
     def as_revision(arg)
       raise "Invalid revision: #{arg}" unless arg =~ /^(HEAD(~\d+)?)|([\d\w:-]+)$/
-      obj = nil
       revision = nil
       with_clone do |clone|
         obj = clone.object(arg.to_s)
@@ -91,8 +90,8 @@ module Blastr::SourceControl
     end
     
     def with_clone
-      temp_dir = Blastr::temp_dir
-      Blastr::FileSystem::delete_at_exit(temp_dir)
+      temp_dir = Blastr::FileSystem.temp_dir
+      Blastr::FileSystem.delete_at_exit(temp_dir)
       begin
         clone = ::Git.clone(@git_url, temp_dir)
         clone.chdir do

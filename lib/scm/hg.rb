@@ -74,7 +74,7 @@ module Blastr::SourceControl
     
     private
     def with_clone
-      clone_dir = Blastr::temp_dir
+      clone_dir = Blastr::FileSystem.temp_dir
       Blastr::FileSystem::delete_at_exit(clone_dir)
       %x[hg clone #{@repo_url} #{clone_dir}]
       current_dir = Dir.pwd
