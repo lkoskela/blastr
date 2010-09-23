@@ -3,8 +3,7 @@ require 'hoe'
 $:.unshift(File.dirname(__FILE__) + "/lib")
 require File.expand_path(File.join(File.dirname(__FILE__), 'lib/blastr'))
 
-# remember to try this with the next release
-#Hoe.plugin :git
+Hoe.plugin :git
 
 Hoe.spec 'blastr' do
   name = "blastr"
