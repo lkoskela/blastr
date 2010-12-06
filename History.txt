@@ -1,3 +1,11 @@
+== 0.1.2 2010-12-06
+
+* Add missing files from 0.1.1
+
+== 0.1.1 2010-09-22
+
+* (history unknown)
+
 == 0.0.18 2010-02-19
 
 * Omit URLs in speech.
