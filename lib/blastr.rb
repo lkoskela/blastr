@@ -8,7 +8,7 @@ module Blastr
   require File.expand_path(File.join(File.dirname(__FILE__), 'tts/tts.rb'))
   require File.expand_path(File.join(File.dirname(__FILE__), 'people/people.rb'))
 
-  VERSION = '0.1.1'
+  VERSION = '0.1.2'
   COPYRIGHT = "Copyright (c) 2009-#{Time.now.year}, Lasse Koskela. All Rights Reserved."
   
   def self.trap_and_exit(signal)
