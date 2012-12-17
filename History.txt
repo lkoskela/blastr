@@ -1,4 +1,4 @@
-== TBD
+== 0.2.1 2012-12-17
 
 * Fix a bug where an empty revision log would cause Blastr to throw up on the console
 
