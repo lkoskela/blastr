@@ -1,22 +1,12 @@
-require 'rubygems'
-require 'hoe'
+require "bundler/gem_tasks"
+require "rake/testtask"
 
-$:.unshift(File.dirname(__FILE__) + "/lib")
-require File.expand_path(File.join(File.dirname(__FILE__), 'lib/blastr'))
+desc "Default: run tests."
+task :default => :test
 
-Hoe.plugin :git
-
-Hoe.spec 'blastr' do
-  name = "blastr"
-  developer('Lasse Koskela', 'lasse.koskela@gmail.com')
-  description = "Blastr observes a version control repository for commits and makes audible announcements out of the commit messages."
-  summary = "Blastr is an audible commit radiator"
-  url = "http://github.com/lkoskela/blastr"
-  clean_globs = ['test/output/*.png', '**/.DS_Store', 'tmp', '*.log']
-  changes = paragraphs_of('History.txt', 0..1).join("\n\n")
-  remote_rdoc_dir = '' # Release to root
-  rsync_args = '-av --delete --ignore-errors'
-  extra_deps = [
-    ['git','>= 1.2.5'],
-  ]
+desc "Run unit tests"
+Rake::TestTask.new do |t|
+  t.libs << "test"
+  t.test_files = FileList['test/**/test*.rb']
+  t.verbose = true
 end
