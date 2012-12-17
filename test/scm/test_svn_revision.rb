@@ -13,8 +13,8 @@ class TestSubversionRevision < Test::Unit::TestCase
   end
 
   def test_before_comparison_between_revisions
-    rev123 = Blastr::SourceControl::SubversionRevision.new("123")
-    rev456 = Blastr::SourceControl::SubversionRevision.new("456")
+    rev123 = revision("123")
+    rev456 = revision("456")
     assert rev123.before?(rev456) == true
     assert rev456.before?(rev123) == false
   end
