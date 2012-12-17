@@ -1,3 +1,4 @@
+# encoding: UTF-8
 class AbstractScmTestCase < Test::Unit::TestCase  
   abstract
 
