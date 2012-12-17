@@ -1,10 +1,10 @@
 # -*- encoding: utf-8 -*-
 $:.push File.expand_path("../lib", __FILE__)
-#require File.expand_path(__FILE__, "lib/version.rb")
+require File.expand_path("../lib/version.rb", __FILE__)
 
 Gem::Specification.new do |s|
   s.name        = "blastr"
-  s.version     = "1" #Blastr::VERSION
+  s.version     = Blastr::VERSION
   s.authors     = ["Lasse Koskela"]
   s.email       = ["lasse.koskela@gmail.com"]
   s.homepage    = "http://github.com/lkoskela/blastr"
