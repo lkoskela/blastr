@@ -6,6 +6,11 @@ class TestMercurialLogParsing < Test::Unit::TestCase
   def setup
     @hg = Blastr::SourceControl::Mercurial.new("hg:http://whatever")
   end
+  
+  def test_no_entries
+    @log = "----------------------------------------------------------------------\n"
+    should_produce_entries []
+  end
 
   def test_one_entry
     @log = <<EOS

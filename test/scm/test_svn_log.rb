@@ -6,6 +6,11 @@ class TestSubversionLogParsing < Test::Unit::TestCase
   def setup
     @svn = Blastr::SourceControl::Subversion.new("svn://whatever")
   end
+  
+  def test_no_entries
+    @log = "------------------------------------------------------------------------\n"
+    should_produce_entries []
+  end
 
   def test_one_entry
     @log = <<EOS
