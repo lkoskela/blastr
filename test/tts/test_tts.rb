@@ -1,5 +1,5 @@
 require File.expand_path(File.join(File.dirname(__FILE__), '../test_helper.rb'))
-require 'mocha'
+require 'mocha/setup'
 
 class TestTTSImplementation < Test::Unit::TestCase
   def test_availability_depends_on_binary_existing_in_PATH
