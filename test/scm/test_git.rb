@@ -52,6 +52,27 @@ class TestGit < AbstractScmTestCase
     parent_of_git_repo = File.dirname(@local_repo)
     assert_urls_are_not_understood([ parent_of_git_repo ])
   end
+  
+  def test_detects_latest_revision_from_commit_log
+    latest_commit_sha = "LaT35tR3v1510N"
+    head_minus_one = revision("HEAD~1")
+    repo = scm.new("file:///fakerepo")
+    repo.expects(:as_revision).with("HEAD~1").returns(head_minus_one)
+    repo.expects(:commits_since).with(head_minus_one).returns([
+      logentry(commit(latest_commit_sha))
+    ])
+    assert_equal revision(latest_commit_sha), repo.latest_revision
+  end
+  
+  def test_latest_revision_for_empty_log_defaults_to_revision_1
+    head = revision("HEAD")
+    head_minus_one = revision("HEAD~1")
+    repo = scm.new("file:///fakerepo")
+    repo.expects(:as_revision).with("HEAD~1").returns(head_minus_one)
+    repo.expects(:as_revision).with("HEAD").returns(head)
+    repo.expects(:commits_since).with(head_minus_one).returns([])
+    assert_equal head, repo.latest_revision
+  end
 
   private
   
@@ -60,6 +81,20 @@ class TestGit < AbstractScmTestCase
     %x[git init #{dir}]
     assert File.directory? dir
     dir
+  end
+  
+  def commit(sha, options = {})
+    defaults = { :date => "FAKE DATE", :author => stub(:name => "author"), :message => "message" }
+    commit_data = defaults.merge(options.merge(:sha => sha))
+    stub(commit_data)
+  end
+  
+  def logentry(commit)
+    Blastr::SourceControl::GitLogEntry.new(commit)
+  end
+  
+  def revision(sha, date = "FAKE DATE")
+    Blastr::SourceControl::GitRevision.new(sha, date)
   end
 
   def scm

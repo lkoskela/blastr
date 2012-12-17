@@ -34,6 +34,11 @@ module Blastr::SourceControl
     def self.head
       GitRevision.new("HEAD", nil)
     end
+    
+    def ==(other)
+      return false unless other.is_a? GitRevision
+      other.name == @name and other.date == @date
+    end
   end
     
   class Git

@@ -49,7 +49,7 @@ module Blastr::SourceControl
     def latest_revision
       entries = commits_since(as_revision("HEAD"))
       return entries.first.revision unless entries.empty?
-      1
+      SubversionRevision.new("1")
     end
 
     def commits_since(since_revision = 1)
