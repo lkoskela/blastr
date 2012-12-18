@@ -1,31 +1,11 @@
 # encoding: UTF-8
 require 'fileutils'
-require File.expand_path(File.join(File.dirname(__FILE__), 'scm.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), '../scm.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), '../log_entry.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'revision.rb'))
 
 module Blastr::SourceControl
   
-  class MercurialRevision
-    attr_accessor :name
-    
-    def initialize(name)
-      @name = name
-    end
-    
-    def to_s
-      @name
-    end
-    
-    def ==(other)
-      @name == other.name
-    end
-    
-    def before?(revision)
-      return false if @name == "tip"
-      return true if revision.name == "tip"
-      @name.to_i < revision.name.to_i
-    end
-  end
-
   class Mercurial
     def name; "Mercurial"; end
 
