@@ -1,6 +1,10 @@
+== 0.2.3 2012-12-19
+
+* Fix the Subversion module picking the wrong 'latest revision' from console output
+
 == 0.2.2 2012-12-18
 
-* Fix a fatal missing constant error introduced by a shoddy refactoring.
+* Fix a fatal missing constant error introduced by a shoddy refactoring
 
 == 0.2.1 2012-12-17
 
