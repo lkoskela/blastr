@@ -1,6 +1,7 @@
 # encoding: UTF-8
 $LOAD_PATH.unshift(File.dirname(__FILE__)) unless
   $LOAD_PATH.include?(File.dirname(__FILE__)) or $LOAD_PATH.include?(File.expand_path(File.dirname(__FILE__)))
+require File.expand_path(File.join(File.dirname(__FILE__), 'version.rb'))
 
 module Blastr
   require File.expand_path(File.join(File.dirname(__FILE__), 'error.rb'))
