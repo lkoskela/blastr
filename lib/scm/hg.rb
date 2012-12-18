@@ -66,6 +66,7 @@ module Blastr::SourceControl
     end
     
     private
+
     def hg_log(revision = 0)
       separator = "-" * 70
       template = "\\nchangeset {rev}:{node} by {author}:\\n{desc}\\n#{separator}"
@@ -73,7 +74,6 @@ module Blastr::SourceControl
       hg_log_entries(output)
     end
     
-    private
     def with_clone
       clone_dir = Blastr::FileSystem.temp_dir
       Blastr::FileSystem::delete_at_exit(clone_dir)
