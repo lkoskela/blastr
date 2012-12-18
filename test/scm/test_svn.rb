@@ -47,16 +47,16 @@ class TestSubversion < AbstractScmTestCase
   
   def test_detects_latest_revision_from_commit_log
     repo = scm.new("/fakerepo")
-    repo.expects(:commits_since).with(revision("HEAD")).returns([
+    repo.expects(:commits_since).with(revision("0")).returns([
       logentry(revision("15"), "author", "comment")
     ])
     assert_equal revision("15"), repo.latest_revision
   end
   
-  def test_latest_revision_for_empty_log_defaults_to_revision_1
+  def test_latest_revision_for_empty_log_defaults_to_revision_zero
     repo = scm.new("/fakerepo")
-    repo.expects(:commits_since).with(revision("HEAD")).returns([])
-    assert_equal revision("1"), repo.latest_revision
+    repo.expects(:commits_since).with(revision("0")).returns([])
+    assert_equal revision("0"), repo.latest_revision
   end
 
   private

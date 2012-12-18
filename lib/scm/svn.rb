@@ -34,7 +34,7 @@ module Blastr::SourceControl
     end
     
     def initialize(svn_url)
-      @svn_url = with_protocol_scheme(svn_url)
+      @svn_url = Subversion.with_protocol_scheme(svn_url)
     end
     
     def url
@@ -47,12 +47,12 @@ module Blastr::SourceControl
     end
     
     def latest_revision
-      entries = commits_since(as_revision("HEAD"))
-      return entries.first.revision unless entries.empty?
-      SubversionRevision.new("1")
+      entries = commits_since(as_revision("0"))
+      return entries.last.revision unless entries.empty?
+      SubversionRevision.new("0")
     end
 
-    def commits_since(since_revision = 1)
+    def commits_since(since_revision = as_revision("1"))
       svn_log_output = svn_log(since_revision)
       svn_log_entries(svn_log_output)
     end
@@ -70,7 +70,7 @@ module Blastr::SourceControl
 
     private
     
-    def with_protocol_scheme(path)
+    def self.with_protocol_scheme(path)
       return path if Subversion.has_protocol_scheme?(path)
       "file://#{path}"
     end
@@ -98,7 +98,6 @@ module Blastr::SourceControl
       end
     end
 
-    private
     def content_of(file)
       file = open(file)
       content = file.read
