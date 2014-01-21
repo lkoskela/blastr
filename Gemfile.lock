@@ -1,16 +1,17 @@
 PATH
   remote: .
   specs:
-    blastr (1)
+    blastr (0.2.3)
       git
 
 GEM
   remote: http://rubygems.org/
   specs:
-    git (1.2.5)
+    git (1.2.6)
     metaclass (0.0.1)
     mocha (0.13.1)
       metaclass (~> 0.0.1)
+    rake (10.1.0)
 
 PLATFORMS
   ruby
@@ -18,3 +19,4 @@ PLATFORMS
 DEPENDENCIES
   blastr!
   mocha
+  rake
