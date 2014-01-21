@@ -19,7 +19,8 @@ class TestPeopleFile < Test::Unit::TestCase
   end
   
   def test_should_handle_missing_people_file
-    FileUtils.rm(Blastr::People::PEOPLE_FILE)
+    parent_dir = File.dirname(Blastr::People::PEOPLE_FILE)
+    FileUtils.rm(Blastr::People::PEOPLE_FILE) if File.directory?(parent_dir)
     assert_equal({}, Blastr::People.people)
     assert_equal "nick", Blastr::People.full_name_of("nick")
   end
